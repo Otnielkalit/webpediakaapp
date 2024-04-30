@@ -54,6 +54,7 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
         <li class="menu-item {{ \Route::is('admin.dashboard') ? 'active' : '' }}">
+
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
@@ -65,10 +66,30 @@
                 <div data-i18n="Analytics">Laporan</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ \Route::is('category-violence.*') ? 'open active' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Content</div>
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div class="text-truncate" data-i18n="Dashboards">Kategory Kekerasan</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ \Route::is('category-violence.index') ? 'active' : '' }}">
+                    <a href="{{ route('category-violence.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-detail"></i>
+                        <div data-i18n="Analytics">Kategori kekerasan</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ \Route::is('category-violence.create') ? 'active' : '' }}">
+                    <a href="{{ route('category-violence.create') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-detail"></i>
+                        <div data-i18n="Analytics">Buat Kategori</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item {{ \Route::is('content.*') ? 'open active' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div class="text-truncate" data-i18n="Dashboards">List Content</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ \Route::is('content.index') ? 'active' : '' }}">
@@ -80,13 +101,27 @@
                 <li class="menu-item {{ \Route::is('content.create') ? 'active' : '' }}">
                     <a href="{{ route('content.create') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
-                        <div data-i18n="Analytics">Create Content</div>
+                        <div data-i18n="Analytics">Buat Kategori</div>
                     </a>
                 </li>
-                <li class="menu-item {{ \Route::is('content.index') ? 'active' : '' }}">
-                    <a href="{{ route('content.index') }}" class="menu-link">
+            </ul>
+        </li>
+        <li class="menu-item {{ \Route::is('event.*') ? 'open active' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div class="text-truncate" data-i18n="Dashboards">Event DPMDPPA</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ \Route::is('event.index') ? 'active' : '' }}">
+                    <a href="{{ route('event.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
-                        <div data-i18n="Analytics">Category Content</div>
+                        <div data-i18n="Analytics">List Event</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ \Route::is('event.create') ? 'active' : '' }}">
+                    <a href="{{ route('event.create') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-detail"></i>
+                        <div data-i18n="Analytics">Buat Event</div>
                     </a>
                 </li>
             </ul>

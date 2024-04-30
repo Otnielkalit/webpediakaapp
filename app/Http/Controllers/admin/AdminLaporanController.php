@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Helpers\ApiHelper;
 use Illuminate\Support\Facades\Http;
 
 
@@ -16,7 +16,7 @@ class AdminLaporanController extends Controller
     public function index(Request $request)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)->get('http://localhost:8080/api/admin/laporan');
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/laporan');
         if ($response->successful()) {
             $laporan = $response->json()['Data'];
         } else {
@@ -47,10 +47,35 @@ class AdminLaporanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+
+
+
+
+
+    public function show(Request $request, string $no_registrasi)
     {
-        //
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-laporan/' . $no_registrasi);
+
+        // Memeriksa apakah respons berhasil
+        if ($response->successful()) {
+            // Mengambil data laporan dari respons JSON
+            $laporanDetail = $response->json()['Data'];
+
+            // Mengirim data laporan ke tampilan detail
+            return view('admin.pages.laporan.detail_laporan', [
+                'title' => 'Detail Laporan',
+                'laporanDetail' => $laporanDetail,
+            ]);
+        }
+
+        // Jika respons tidak berhasil, mengarahkan kembali ke halaman laporan dengan pesan kesalahan
+        return redirect()->route('admin.laporan')->with('error', 'Failed to fetch report detail');
     }
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.

@@ -16,27 +16,5 @@ class DashboardAdminController extends Controller
             'user' => $userData
         ]);
     }
-    public function laporan(Request $request)
-    {
-        $token = $request->cookie('user_token');
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-        ])->get('http://localhost:8080/api/admin/laporan');
-        if ($response->successful()) {
-            $laporan = $response->json()['Data'];
-        } else {
-            $laporan = [];
-        }
-        return view('admin.pages.laporan.index', [
-            'title' => 'Laporan Masyarakat',
-            'laporan' => $laporan,
-        ]);
-    }
-
-    public function detailLaporan()
-    {
-        return view('admin.pages.laporan.detail_laporan', [
-            'title' => 'Detail Laporan Masyarakat',
-        ]);
-    }
+    
 }

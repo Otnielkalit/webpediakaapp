@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\admin\AdminContentController;
+use App\Http\Controllers\admin\AdminEventController;
+use App\Http\Controllers\admin\AdminKategoryKekerasan;
 use App\Http\Controllers\admin\AdminLaporanController;
 use App\Http\Controllers\admin\DashboardAdminController;
 use App\Http\Controllers\admin\ProfileAdminController;
@@ -37,5 +39,6 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('/admin/laporan', AdminLaporanController::class);
     Route::resource('/admin/content', AdminContentController::class);
-    Route::get('/admin/detail-laporan', [DashboardAdminController::class, 'detailLaporan'])->name('admin.detail-laporan');
+    Route::resource('/admin/category-violence', AdminKategoryKekerasan::class);
+    Route::resource('/admin/event', AdminEventController::class);
 });

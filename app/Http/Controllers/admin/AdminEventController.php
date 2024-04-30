@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class AdminContentController extends Controller
+
+class AdminEventController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,33 +16,25 @@ class AdminContentController extends Controller
     public function index(Request $request)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)->get(env('API_URL') . '/api/admin/content');
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/event');
         if ($response->successful()) {
-            $content = $response->json()['Data'];
+            $events = $response->json()['Data'];
         } else {
-            $content = [];
+            $events = [];
         }
-        return view('admin.pages.content.index', [
-            'title' => 'Content',
-            'content' => $content,
+        return view('admin.pages.event.index', [
+            'title' => 'Event DPMDPPA',
+            'events' => $events,
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
-        $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)->get(env('API_URL') . '/api/admin/violence-categories');
-        if ($response->successful()) {
-            $categoryViolence = $response->json()['Data'];
-        } else {
-            $categoryViolence = [];
-        }
-        return view('admin.pages.content.create', [
-            'title' => 'Create a new resource',
-            'categoryViolence' => $categoryViolence,
+        return view('admin.pages.event.create', [
+            'title' => 'Create Event'
         ]);
     }
 

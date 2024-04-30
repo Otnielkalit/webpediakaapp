@@ -8,9 +8,12 @@
             ©
         </div>
         <div>
-            <a href="{{ route('logout') }}" class="btn btn-sm btn-outline-danger">
-                <i class="bx bx-log-out-circle"></i> Logout
-            </a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <i class="bx bx-log-out-circle"></i> Logout
+                </button>
+            </form>
         </div>
     </div>
 </footer>

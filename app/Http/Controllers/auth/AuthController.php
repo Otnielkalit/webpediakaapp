@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cookie;
 
-$apiUrl = env('API_URL');
 class AuthController extends Controller
 {
     public function userLogin()
@@ -23,10 +22,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentialType = filter_var($request->input('credential'), FILTER_VALIDATE_EMAIL) ? 'email' : (is_numeric($request->input('credential')) ? 'phone_number' : 'username');
-        $response = Http::post('http://localhost:8080/api/user/login', [
+
+        $response = Http::post(env('API_URL') . 'api/user/login', [
             $credentialType => $request->input('credential'),
             'password' => $request->input('password'),
         ]);
+
         $responseData = $response->json();
         if ($response->successful() && $responseData['success'] == 1) {
             $user = $responseData['data'];
@@ -47,6 +48,6 @@ class AuthController extends Controller
     {
         Cookie::queue(Cookie::forget('user_data'));
         Cookie::queue(Cookie::forget('user_token'));
-        return redirect('/');
+        return redirect()->route('welcome');
     }
 }
