@@ -43,6 +43,47 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="navs-pills-justified-laporan" role="tabpanel">
                     <h3 class="card-header">Isi Laporan {{ $laporanDetail['no_registrasi'] }}</h3>
+                    <h5 class="card-header">Dokumentasi</h5>
+                    <div class="card-body">
+                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                            @foreach ($laporanDetail['dokumentasi']['urls'] as $key => $url)
+                                @php
+                                    $pathInfo = pathinfo($url);
+                                    $extension = strtolower($pathInfo['extension']);
+                                @endphp
+                                @if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif']))
+                                    <img src="{{ $url }}" alt="dokumentasi" class="d-block rounded document-img"
+                                        height="100" width="100" data-bs-toggle="modal" data-bs-target="#modalCenter"
+                                        data-type="image" data-image-url="{{ $url }}">
+                                @elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv', 'webm']))
+                                    <video controls class="d-block rounded document-video" height="100" width="100"
+                                        data-bs-toggle="modal" data-bs-target="#modalCenter" data-type="video"
+                                        data-video-url="{{ $url }}">
+                                        <source src="{{ $url }}" type="video/{{ $extension }}">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalCenterTitle">Dokumentasi</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center" id="modalContent">
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <form id="formAccountSettings" method="POST" onsubmit="return false">
                         <div class="row">
                             <div class="mb-3 col-md-6">
@@ -53,7 +94,7 @@
                             <div class="mb-3 col-md-6">
                                 <label for="lastName" class="form-label">Kategori Kekerasan</label>
                                 <input class="form-control" type="text" name="lastName" id="lastName"
-                                    value="{{ $laporanDetail['kategori_kekerasan'] }}">
+                                    value="{{ $laporanDetail['ViolenceCategory']['category_name'] }}">
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">Tanggal Pelaporan</label>
@@ -135,7 +176,7 @@
     </div>
     <hr class="my-3">
     <h4 class="card-header text-center">Status Laporan</h4>
-    
+
     </div>
     <div class="tab-pane fade" id="navs-pills-justified-pelapor" role="tabpanel">
         <h3 class="card-header">Data Pelapor</h3>
@@ -157,7 +198,7 @@
                                 </i>
                             </span>
                             <input type="text" class="form-control" id="basic-icon-default-fullname"
-                                placeholder="{{ $laporanDetail['User']['full_name'] }}"
+                                value="{{ $laporanDetail['User']['full_name'] }}"
                                 aria-label="{{ $laporanDetail['User']['full_name'] }}"
                                 aria-describedby="basic-icon-default-fullname2">
                         </div>
@@ -180,7 +221,7 @@
                                 <i class="bx bx-envelope"></i>
                             </span>
                             <input type="text" id="basic-icon-default-email" class="form-control"
-                                placeholder="{{ $laporanDetail['User']['email'] }}"
+                                value="{{ $laporanDetail['User']['email'] }}"
                                 aria-label="{{ $laporanDetail['User']['email'] }}"
                                 aria-describedby="basic-icon-default-email2">
                         </div>
@@ -195,60 +236,24 @@
                         <div class="input-group input-group-merge">
                             <span class="input-group-text">ID (+62)</span>
                             <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
-                                placeholder="{{ $laporanDetail['User']['phone_number'] }}">
+                                value="{{ $laporanDetail['User']['phone_number'] }}">
                         </div>
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                        <input type="text" class="form-control" id="jenis_kelamin" name="jenis_kelamin"
-                            placeholder="Address">
+                        <input type="text" class="form-control" value="{{ $laporanDetail['User']['jenis_kelamin'] }}"
+                            id="jenis_kelamin" name="jenis_kelamin">
                     </div>
                     <div class="mb-3 col-md-6">
-                        <label for="state" class="form-label">State</label>
-                        <input class="form-control" type="text" id="state" name="state"
-                            placeholder="California">
+                        <label for="state" class="form-label">Alamat</label>
+                        <input class="form-control" type="text" id="state" name="state" value="Alamat">
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="zipCode" class="form-label">Zip Code</label>
                         <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="231465"
                             maxlength="6">
                     </div>
-                    <div class="mb-3 col-md-6">
-                        <label class="form-label" for="country">Country</label>
-                        <select id="country" class="select2 form-select">
-                            <option value="">Select</option>
-                            <option value="Australia">Australia</option>
-                            <option value="Bangladesh">Bangladesh</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <label for="language" class="form-label">Language</label>
-                        <select id="language" class="select2 form-select">
-                            <option value="">Select Language</option>
-                            <option value="en">English</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="pt">Portuguese</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <label for="timeZones" class="form-label">Timezone</label>
-                        <select id="timeZones" class="select2 form-select">
-                            <option value="">Select Timezone</option>
-                            <option value="-12">(GMT-12:00) International Date Line West</option>
-                            <option value="-11">(GMT-11:00) Midway Island, Samoa</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <label for="currency" class="form-label">Currency</label>
-                        <select id="currency" class="select2 form-select">
-                            <option value="">Select Currency</option>
-                            <option value="usd">USD</option>
-                            <option value="euro">Euro</option>
-                            <option value="pound">Pound</option>
-                            <option value="bitcoin">Bitcoin</option>
-                        </select>
-                    </div>
+
                 </div>
             </form>
         </div>
@@ -480,3 +485,30 @@
     </div>
     </div>
 @endsection
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const documentImgs = document.querySelectorAll(".document-img");
+        const documentVideos = document.querySelectorAll(".document-video");
+        const modalContent = document.getElementById("modalContent");
+
+        documentImgs.forEach(img => {
+            img.addEventListener("click", function() {
+                const imageUrl = this.getAttribute("data-image-url");
+                modalContent.innerHTML =
+                    `<img src="${imageUrl}" alt="dokumentasi" class="img-fluid">`;
+            });
+        });
+
+        documentVideos.forEach(video => {
+            video.addEventListener("click", function() {
+                const videoUrl = this.getAttribute("data-video-url");
+                modalContent.innerHTML = `
+                    <video controls class="img-fluid">
+                        <source src="${videoUrl}" type="video/{{ $extension }}">
+                        Your browser does not support the video tag.
+                    </video>`;
+            });
+        });
+    });
+</script>

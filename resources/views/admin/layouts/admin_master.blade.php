@@ -21,11 +21,6 @@
     <link rel="stylesheet" href="asset-admin/assets/vendor/css/core.css" class="template-customizer-core-css">
     <link rel="stylesheet" href="asset-admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css">
     <link rel="stylesheet" href="asset-admin/assets/css/demo.css">
-    <link rel="stylesheet" href="asset-admin/assets/vendor/libs/quill/katex.css">
-    <link rel="stylesheet" href="asset-admin/assets/vendor/libs/quill/editor.css">
-    <link rel="stylesheet" href="asset-admin/assets/vendor/libs/dropzone/dropzone.css">
-    <link rel="stylesheet" href="asset-admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
-    <link rel="stylesheet" href="asset-admin/assets/vendor/libs/apex-charts/apex-charts.css">
     <script src="asset-admin/assets/vendor/js/helpers.js"></script>
     <script src="asset-admin/assets/js/config.js"></script>
 </head>
@@ -55,24 +50,6 @@
     <script src="asset-admin/assets/vendor/js/menu.js"></script>
     <script src="asset-admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
     <script src="asset-admin/assets/js/main.js"></script>
-    {{-- <script src="asset-admin/assets/js/main2.js"></script> --}}
-
-    <script src="asset-admin/assets/js/dashboards-analytics.js"></script>
-    <link rel="stylesheet" href="asset-admin/assets/css/select2/select2.min.js">
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="asset-admin/assets/vendor/libs/dropzone/dropzone.js"></script>
-    <script src="asset-admin/assets/js/app-ecommerce-product-add.js"></script>
-    <script src="asset-admin/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-    <script src="asset-admin/assets/vendor/libs/quill/katex.js"></script>
-    <script src="asset-admin/assets/vendor/libs/quill/quill.js"></script>
-    <script src="asset-admin/assets/vendor/libs/select2/select2.js"></script>
-    <script src="asset-admin/assets/vendor/libs/dropzone/dropzone.js"></script>
-    <script src="asset-admin/assets/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
-    <script src="asset-admin/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-    <script src="asset-admin/assets/vendor/libs/tagify/tagify.js"></script>
-    <script src="asset-admin/assets/js/app-ecommerce-product-add.js"></script>
-
-    <script src="asset-admin/assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
     @stack('javascript')
     <script>
         window.onload = function() {

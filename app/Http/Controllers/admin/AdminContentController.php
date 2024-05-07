@@ -15,15 +15,15 @@ class AdminContentController extends Controller
     public function index(Request $request)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)->get(env('API_URL') . '/api/admin/content');
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/contents');
         if ($response->successful()) {
-            $content = $response->json()['Data'];
+            $contents = $response->json()['Data'];
         } else {
-            $content = [];
+            $contents = [];
         }
         return view('admin.pages.content.index', [
             'title' => 'Content',
-            'content' => $content,
+            'contents' => $contents,
         ]);
     }
 
@@ -33,7 +33,7 @@ class AdminContentController extends Controller
     public function create(Request $request)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)->get(env('API_URL') . '/api/admin/violence-categories');
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/violence-categories');
         if ($response->successful()) {
             $categoryViolence = $response->json()['Data'];
         } else {

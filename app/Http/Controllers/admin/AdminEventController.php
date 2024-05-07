@@ -6,7 +6,7 @@ use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Validator;
 
 class AdminEventController extends Controller
 {
@@ -43,7 +43,26 @@ class AdminEventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $category_name = $request->input('category_name');
+        $image = $request->file('image');
+        $validator = Validator::make($request->all(), [
+            'category_name' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $response = Http::withHeaders($headers)
+            ->attach('image', file_get_contents($image), $image->getClientOriginalName())
+            ->post(env('API_URL') . 'api/admin/create-violence-category', [
+                'category_name' => $category_name,
+            ]);
+        if ($response->successful()) {
+            return redirect()->route('category-violence.index')->with('success', 'Kategori kekerasan berhasil ditambahkan.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menambahkan kategori kekerasan. Silakan coba lagi.');
+        }
     }
 
     /**

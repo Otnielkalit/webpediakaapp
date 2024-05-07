@@ -56,13 +56,8 @@ class AdminLaporanController extends Controller
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
         $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-laporan/' . $no_registrasi);
-
-        // Memeriksa apakah respons berhasil
         if ($response->successful()) {
-            // Mengambil data laporan dari respons JSON
             $laporanDetail = $response->json()['Data'];
-
-            // Mengirim data laporan ke tampilan detail
             return view('admin.pages.laporan.detail_laporan', [
                 'title' => 'Detail Laporan',
                 'laporanDetail' => $laporanDetail,
