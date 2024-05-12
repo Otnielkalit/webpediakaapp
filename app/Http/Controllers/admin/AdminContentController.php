@@ -6,6 +6,7 @@ use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class AdminContentController extends Controller
 {
@@ -50,7 +51,29 @@ class AdminContentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $judul = $request->input('judul');
+        $isi_content = $request->input('isi_content');
+        $image_content = $request->file('image_content');
+        $validator = Validator::make($request->all(), [
+            'judul' => 'required|string|max:255',
+            'isi_content' => 'required|string',
+            'image_content' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $response = Http::withHeaders($headers)
+            ->attach('image_content', file_get_contents($image_content), $image_content->getClientOriginalName())
+            ->post(env('API_URL') . 'api/admin/create-content', [
+                'judul' => $judul,
+                'isi_content' => $isi_content,
+            ]);
+        if ($response->successful()) {
+            return redirect()->route('content.index')->with('success', 'Kategori kekerasan berhasil ditambahkan.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menambahkan kategori kekerasan. Silakan coba lagi.');
+        }
     }
 
     /**
@@ -80,8 +103,14 @@ class AdminContentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $response = Http::withHeaders($headers)->delete(env('API_URL') . "api/admin/delete-content/{$id}");
+        if ($response->successful()) {
+            return redirect()->route('content.index')->with('success', 'Kategori kekerasan berhasil dihapus.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menghapus kategori kekerasan. Silakan coba lagi.');
+        }
     }
 }

@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\admin\AdminContentController;
 use App\Http\Controllers\admin\AdminEventController;
+use App\Http\Controllers\admin\AdminJanjiTemuController;
 use App\Http\Controllers\admin\AdminKategoryKekerasan;
 use App\Http\Controllers\admin\AdminLaporanController;
+use App\Http\Controllers\admin\AdminTemuJanjiController;
 use App\Http\Controllers\admin\DashboardAdminController;
 use App\Http\Controllers\admin\ProfileAdminController;
 use App\Http\Controllers\auth\AuthController;
@@ -37,8 +39,19 @@ Route::get('/contact', [DashboardPublicController::class, 'contact'])->name('con
 Route::middleware(['auth.admin'])->group(function () {
     Route::get('/admin/profile', [ProfileAdminController::class, 'profile'])->name('admin.profile');
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::resource('/admin/laporan', AdminLaporanController::class);
     Route::resource('/admin/content', AdminContentController::class);
     Route::resource('/admin/category-violence', AdminKategoryKekerasan::class);
     Route::resource('/admin/event', AdminEventController::class);
+
+    /*||============================================== K E L O L A L A P O R A N ============================================== ||*/
+    Route::get('/admin/laporan', [AdminLaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/admin/laporan/{no_registrasi}', [AdminLaporanController::class, 'detail'])->name('laporan.detail');
+    Route::get('/admin/laporan-diproses', [AdminLaporanController::class, 'diproses'])->name('laporan.diproses');
+    Route::get('/admin/laporan-dibatalkan', [AdminLaporanController::class, 'dibatalkan'])->name('laporan.dibatalkan');
+
+    /*||============================================== J A N J I T E M U ============================================== ||*/
+    Route::get('/admin/janji-temu', [AdminJanjiTemuController::class, 'index'])->name('janji-temu.index');
+    Route::get('/admin/janji-temu/disetujui', [AdminJanjiTemuController::class, 'disetujui'])->name('janji-temu.disetujui');
+    Route::get('/admin/janji-temu/ditolak', [AdminJanjiTemuController::class, 'ditolak'])->name('janji-temu.ditolak');
+    Route::get('/admin/janji-temu/dibatalkan', [AdminJanjiTemuController::class, 'dibatalkan'])->name('janji-temu.dibatalkan');
 });

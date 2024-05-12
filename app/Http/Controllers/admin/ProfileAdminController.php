@@ -12,7 +12,7 @@ class ProfileAdminController extends Controller
     public function profile(Request $request)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)->get('http://localhost:8080/api/admin/profile');
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/profile');
 
         if ($response->successful()) {
             $profile = $response->json()['Data'];

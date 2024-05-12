@@ -72,25 +72,63 @@ class AdminKategoryKekerasan extends Controller
      */
     public function show(string $id)
     {
-        //
+        $response = Http::get(env('API_URL') . 'api/admin/violence-category' . $id);
+        if ($response->successful()) {
+            return response()->json($response->json()['Data']);
+        } else {
+            return response()->json(['error' => 'Failed to fetch category details.'], 500);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
-        return view('admin.pages.category_violence.update', [
-            'title' => 'Create Category Violence'
-        ]);
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $response = Http::withHeaders($headers)
+            ->get(env('API_URL') . 'api/admin/get-violence-category/' . $id);
+
+        if ($response->successful()) {
+            $category_violence = $response->json();
+            return view('admin.pages.category_violence.update', [
+                'title' => 'Edit Category Violence',
+                'category_violence' => $category_violence,
+            ]);
+        } else {
+            return redirect()->back()->with('error', 'Gagal mengambil data kategori kekerasan. Silakan coba lagi.');
+        }
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $category_name = $request->input('category_name');
+        $image = $request->file('image');
+        $validator = Validator::make($request->all(), [
+            'category_name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $data = ['category_name' => $category_name];
+        if ($image) {
+            $data['image'] = base64_encode(file_get_contents($image));
+        }
+
+        $response = Http::withHeaders($headers)
+            ->put(env('API_URL') . 'api/admin/update-violence-category' . $id, $data);
+
+        if ($response->successful()) {
+            return redirect()->route('category-violence.index')->with('success', 'Kategori kekerasan berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal memperbarui kategori kekerasan. Silakan coba lagi.');
+        }
     }
 
     /**

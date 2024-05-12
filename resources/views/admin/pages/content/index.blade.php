@@ -3,7 +3,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
 
         <div class="d-flex flex-column justify-content-center">
-            <h4 class="mb-1 mt-3">Daftar Event</h4>
+            <h4 class="mb-1 mt-3">Daftar Konten</h4>
         </div>
         <div class="d-flex align-content-center flex-wrap gap-3">
             <a href="{{ route('content.create') }}" class="btn btn-primary">Buat Content</a>
@@ -19,7 +19,7 @@
                             <img class="img-fluid w-60" src="{{ $content['image_content'] }}" alt="Card girl image" />
                         </div>
                         <h4 class="mb-2 pb-1">{{ $content['judul'] }}</h4>
-                        <p class="small">{{ $content['isi_content'] }}</p>
+                        <p class="small">{!! $content['isi_content'] !!}</p>
                         <div class="row mb-3 g-3">
                             <div class="col-6">
                                 <div class="d-flex">
@@ -30,18 +30,6 @@
                                     <div>
                                         <h6 class="mb-0 text-nowrap">17 Nov 23</h6>
                                         <small>Date</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex">
-                                    <div class="avatar flex-shrink-0 me-2">
-                                        <span class="avatar-initial rounded bg-label-primary"><i
-                                                class="bx bx-time-five bx-sm"></i></span>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0 text-nowrap">32 minutes</h6>
-                                        <small>Duration</small>
                                     </div>
                                 </div>
                             </div>
@@ -56,8 +44,16 @@
                                         class="tf-icons bx bx-edit"></span>&nbsp;Edit</a>
                             </div>
                             <div class="col-auto">
-                                <a href="javascript:void(0);" class="btn btn-danger"><span
-                                        class="tf-icons bx bx-trash"></span>&nbsp;Hapus</a>
+
+
+                                <form action="{{ route('content.destroy', ['content' => $content['id']]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger"
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus konten ini?');">
+                                        <span class="tf-icons bx bx-trash"></span>&nbsp;Hapus
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

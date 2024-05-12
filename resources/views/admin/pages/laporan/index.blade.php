@@ -17,7 +17,7 @@
                             <td>
                                 <i class="fab fa-angular fa-lg text-danger me-3"></i>
                                 <strong><a
-                                        href="{{ route('laporan.show', ['laporan' => $laporan['no_registrasi']]) }}">{{ $laporan['no_registrasi'] }}</a></strong>
+                                        href="{{ route('laporan.detail', ['no_registrasi' => $laporan['no_registrasi']]) }}">{{ $laporan['no_registrasi'] }}</a></strong>
                             </td>
                             <td>{{ $laporan['tanggal_pelaporan'] }}</td>
                             <td>
@@ -34,3 +34,4 @@
         </div>
     </div>
 @endsection
+

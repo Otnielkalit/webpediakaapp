@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="asset-admin/assets/css/demo.css">
     <script src="asset-admin/assets/vendor/js/helpers.js"></script>
     <script src="asset-admin/assets/js/config.js"></script>
+    {{-- CKEditor CDN --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 </head>
 
 <body>

@@ -6,6 +6,23 @@
                 <div class="d-flex align-items-end row">
                     <div class="col-sm-7">
                         <div class="card-body">
+                            <div class="mb-3">
+                                <label for="kabupatenSelect" class="form-label">Pilih Kabupaten/Kota</label>
+                                {{-- <select class="form-select" id="kabupatenSelect" aria-label="Pilih Kabupaten/Kota">
+                                    <option selected disabled>Pilih Kabupaten/Kota</option>
+                                    <?php foreach ($wilayahIndonesia as $wilayah): ?>
+                                    <?php if (!empty($wilayah[0])): ?>
+                                    <option value="<?= $wilayah[0] ?>"><?= $wilayah[0] ?></option>
+                                    <?php endif; ?>
+                                    <?php if (!empty($wilayah[1])): ?>
+                                    <option value="<?= $wilayah[1] ?>">- <?= $wilayah[1] ?></option>
+                                    <?php endif; ?>
+                                    <?php if (!empty($wilayah[2])): ?>
+                                    <option value="<?= $wilayah[2] ?>">-- <?= $wilayah[2] ?></option>
+                                    <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select> --}}
+                            </div>
                             <h5 class="card-title text-primary">Selamat Datang Admin DPMDPPA 🎉</h5>
                             <p class="mb-4">
                                 You have done
@@ -28,4 +45,32 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Ketika nilai di select provinsi berubah
+        document.getElementById('provinsiSelect').addEventListener('change', function() {
+            // Ambil nilai yang dipilih dari select provinsi
+            var selectedProvinsi = this.value;
+            // Buat permintaan AJAX untuk mendapatkan data kabupaten/kota berdasarkan provinsi yang dipilih
+            // Anda bisa menambahkan endpoint yang sesuai dengan URL Anda
+            var url = `http://localhost:8080/wilayah-indonesia?provinsi=${selectedProvinsi}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Dapatkan elemen select kabupaten/kota
+                    var kabupatenSelect = document.getElementById('kabupatenSelect');
+                    // Kosongkan opsi yang ada sebelumnya
+                    kabupatenSelect.innerHTML = '<option selected disabled>Pilih Kabupaten/Kota</option>';
+                    // Tambahkan opsi kabupaten/kota berdasarkan data yang diterima
+                    data.forEach(kabupaten => {
+                        var option = document.createElement('option');
+                        option.textContent = kabupaten;
+                        option.value = kabupaten;
+                        kabupatenSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
 @endsection

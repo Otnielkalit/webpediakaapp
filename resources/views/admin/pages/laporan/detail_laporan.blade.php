@@ -42,7 +42,9 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="navs-pills-justified-laporan" role="tabpanel">
+
                     <h3 class="card-header">Isi Laporan {{ $laporanDetail['no_registrasi'] }}</h3>
+
                     <h5 class="card-header">Dokumentasi</h5>
                     <div class="card-body">
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
