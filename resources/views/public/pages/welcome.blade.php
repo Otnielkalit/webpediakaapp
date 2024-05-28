@@ -1,4 +1,5 @@
 @extends('public.layouts.public_master')
+
 @section('content')
     <main>
         <div class="slider-area ">
@@ -176,22 +177,32 @@
                     <div class="col-xl-5 col-lg-6">
                         <div class="app-caption">
                             <div class="section-tittle section-tittle3">
-                                <h2>Our App Available For Any Device Download now</h2>
-                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore fug.</p>
-                                <div class="app-btn">
-                                    <a href="#" class="app-btn1">
-                                        <img src="assets/img/shape/app_btn1.png" alt="">
-                                    </a>
-                                    <a href="#" class="app-btn2">
-                                        <img src="assets/img/shape/app_btn2.png" alt="">
-                                    </a>
+                                <div class="phone">
+                                    <img id="phoneImage" src="assets/img/gallery/App1.png" alt="Privy App">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6">
-                        <div class="app-img">
-                            <img src="assets/img/shape/available-app.png" alt="">
+                        <div class="steps">
+                            <ol id="stepsList">
+                                <li data-image="assets/img/gallery/App1.png" class="active">1. Install the Privy app from
+                                    either the App
+                                    Store or Play Store.</li>
+                                <li data-image="assets/img/gallery/App2.png">2. Enter your email and wait for the OTP code
+                                    for verification.
+                                </li>
+                                <li data-image="assets/img/gallery/App3.png">3. Select your nationality and upload the
+                                    required document (KTP
+                                    or Passport for foreigners).</li>
+                                <li data-image="assets/img/gallery/App1.png">4. Initiate liveness detection by capturing a
+                                    quick selfie.</li>
+                                <li data-image="assets/img/gallery/App2.png">5. Establish your password and PIN for added
+                                    security.</li>
+                                <li data-image=assets/img/gallery/App3.png>6. Congratulations! Your Privy account is now
+                                    ready for use.
+                                    Enjoy effortless document signing!</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
@@ -226,3 +237,4 @@
         </div>
     </main>
 @endsection
+

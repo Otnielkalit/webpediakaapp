@@ -32,7 +32,7 @@
                                         <a href="{{ route('feature') }}">Feature</a>
                                     </li>
                                     <li class="{{ \Route::is('blog') ? 'active' : '' }}">
-                                        <a href="{{ route('blog') }}">Blog</a>
+                                        <a href="{{ route('blog') }}">Content</a>
                                     </li>
                                     <li>
                                         <a href="#">Pages</a>
@@ -54,10 +54,14 @@
                                     <li>
                                         |
                                     </li>
-
                                     <li>
                                         <a href="{{ route('user.login') }}">
                                             <button type="submit" class="button boxed-btn genric-btn">Login</button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.login') }}">
+                                            <button type="submit" class="button boxed-btn genric-btn">Download</button>
                                         </a>
                                     </li>
                                     </li>

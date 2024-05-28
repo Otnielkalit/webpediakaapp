@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
+
 class AdminKategoryKekerasan extends Controller
 {
     /**
@@ -83,14 +84,13 @@ class AdminKategoryKekerasan extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, string $id)
+    public function edit(Request $request, $id)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)
-            ->get(env('API_URL') . 'api/admin/get-violence-category/' . $id);
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-violence-category/' . $id);
 
         if ($response->successful()) {
-            $category_violence = $response->json();
+            $category_violence = $response->json()['Data'];
             return view('admin.pages.category_violence.update', [
                 'title' => 'Edit Category Violence',
                 'category_violence' => $category_violence,
@@ -101,28 +101,35 @@ class AdminKategoryKekerasan extends Controller
     }
 
 
+
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, $id)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
         $category_name = $request->input('category_name');
         $image = $request->file('image');
+
         $validator = Validator::make($request->all(), [
             'category_name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $data = ['category_name' => $category_name];
-        if ($image) {
-            $data['image'] = base64_encode(file_get_contents($image));
-        }
 
         $response = Http::withHeaders($headers)
-            ->put(env('API_URL') . 'api/admin/update-violence-category' . $id, $data);
+            ->asMultipart();
+        $response->attach('category_name', $category_name);
+
+        if ($image) {
+            $response->attach('image', file_get_contents($image), $image->getClientOriginalName());
+        }
+
+        $response = $response->put(env('API_URL') . 'api/admin/edit-violence-category/' . $id);
 
         if ($response->successful()) {
             return redirect()->route('category-violence.index')->with('success', 'Kategori kekerasan berhasil diperbarui.');
@@ -130,6 +137,11 @@ class AdminKategoryKekerasan extends Controller
             return redirect()->back()->with('error', 'Gagal memperbarui kategori kekerasan. Silakan coba lagi.');
         }
     }
+
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

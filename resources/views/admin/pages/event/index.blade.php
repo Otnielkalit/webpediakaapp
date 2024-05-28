@@ -66,20 +66,19 @@
                 </div>
             </div>
         @empty
-        <div class="container-xxl container-p-y d-flex justify-content-center align-items-center">
-            <div class="misc-wrapper">
-                <h2 class="mb-2 mx-2 ">Belum ada Event</h2>
-                <p class="mb-4 mx-2">Sorry for the inconvenience but we're performing some maintenance at the moment</p>
-                <a href="{{ route('event.create') }}" class="btn btn-primary">Buat Event</a>
-                <div class="mt-4">
-                    <img src="asset-admin/assets/img/illustrations/girl-doing-yoga-light.png"
-                        alt="girl-doing-yoga-light" width="500" class="img-fluid"
-                        data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
-                        data-app-light-img="illustrations/girl-doing-yoga-light.png" />
+            <div class="container-xxl container-p-y d-flex justify-content-center align-items-center">
+                <div class="misc-wrapper">
+                    <h2 class="mb-2 mx-2 ">Belum ada Event</h2>
+                    <p class="mb-4 mx-2">Sorry for the inconvenience but we're performing some maintenance at the moment</p>
+                    <a href="{{ route('event.create') }}" class="btn btn-primary">Buat Event</a>
+                    <div class="mt-4">
+                        <img src="asset-admin/assets/img/illustrations/girl-doing-yoga-light.png"
+                            alt="girl-doing-yoga-light" width="500" class="img-fluid"
+                            data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
+                            data-app-light-img="illustrations/girl-doing-yoga-light.png" />
+                    </div>
                 </div>
             </div>
-        </div>
-
     @endforelse
     </div>
 @endsection

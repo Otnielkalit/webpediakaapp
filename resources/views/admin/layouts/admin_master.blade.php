@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>{{ config('app.name', 'Laravel') }} | {{ $title }}</title>
     <meta name="description" content="">
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="asset-admin/assets/img/favicon/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -22,9 +22,9 @@
     <link rel="stylesheet" href="asset-admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css">
     <link rel="stylesheet" href="asset-admin/assets/css/demo.css">
     <script src="asset-admin/assets/vendor/js/helpers.js"></script>
-    <script src="asset-admin/assets/js/config.js"></script>
-    {{-- CKEditor CDN --}}
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="asset-admin/assets/js/config.js"></script>z
+
+
 </head>
 
 <body>
@@ -35,7 +35,7 @@
                 @include('admin.layouts.header')
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        {{-- @include('flash::message') --}}
+
                         @yield('content')
                     </div>
                     @include('admin.layouts.footer')
@@ -52,15 +52,20 @@
     <script src="asset-admin/assets/vendor/js/menu.js"></script>
     <script src="asset-admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
     <script src="asset-admin/assets/js/main.js"></script>
-    @stack('javascript')
+    <script src="asset-admin/assets/vendor/libs/dropzone/dropzone.js"></script>
+    <script src="asset-admin/assets/js/forms-file-upload.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
-        window.onload = function() {
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-        }
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
-    @yield('script')
+    @stack('scripts')
+
 </body>
 
 </html>

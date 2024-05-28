@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <base href="/public">
     <title>{{ $title }}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +20,60 @@
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .phone {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone img {
+            max-width: 100%;
+            height: auto;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .steps {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .steps h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .steps p {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .steps ol {
+            list-style: none;
+            padding: 0;
+        }
+
+        .steps li {
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+
+        .steps li:hover {
+            background: #f1f1f1;
+        }
+
+        .steps li.active {
+            background: #f1f1f1;
+            border-left: 10px solid #a517b8;
+            padding-left: 11px;
+        }
+    </style>
 
 </head>
 
@@ -48,6 +103,37 @@
     <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
+    <script>
+        let currentIndex = 0;
+        const steps = document.querySelectorAll('#stepsList li');
+        const phoneImage = document.getElementById('phoneImage');
+
+        function showStep(index) {
+            steps.forEach((step, i) => {
+                step.classList.toggle('active', i === index);
+            });
+            phoneImage.style.opacity = 0;
+            setTimeout(() => {
+                phoneImage.src = steps[index].getAttribute('data-image');
+                phoneImage.style.opacity = 1;
+            }, 500);
+        }
+
+        steps.forEach((step, index) => {
+            step.addEventListener('click', () => {
+                clearInterval(autoSwitch);
+                currentIndex = index;
+                showStep(index);
+            });
+        });
+
+        const autoSwitch = setInterval(() => {
+            currentIndex = (currentIndex + 1) % steps.length;
+            showStep(currentIndex);
+        }, 7000);
+
+        showStep(currentIndex);
+    </script>
 </body>
 
 </html>

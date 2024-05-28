@@ -1,59 +1,40 @@
 @extends('admin.layouts.admin_master')
 
-
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">
-            <span class="text-muted fw-light">Tables /</span>
-            Basic Tables
-        </h4>
-        <!-- Basic Bootstrap Table -->
         <div class="card">
-            <h5 class="card-header">Table Basic</h5>
+            <h5 class="card-header">{{ $title }}</h5>
             <div class="table-responsive text-nowrap">
-                <table class="table">
+                <table class="table text-center">
                     <thead>
                         <tr>
                             <th>Oleh</th>
-                            <th>Client</th>
-                            <th>Users</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th>Jam Dimulai</th>
+                            <th>Jam Selesai</th>
                         </tr>
                     </thead>
-                    <tbody class="table-border-bottom-0">
-                        @forelse ($janjitemus as $janjitemu)
+                    <tbody class="table-border-bottom-0 text-center">
+                        @forelse ($janjitemusDisetujui as $janjitemu)
                             <tr>
                                 <td>
                                     <i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                    <strong>{{ $janjitemu['user']['full_name'] }}</strong>
+                                    <strong>
+                                        <a
+                                            href="{{ route('janji-temu.detail-disetujui', ['id' => $janjitemu['id']]) }}">{{ $janjitemu['user']['full_name'] }}</a>
+                                    </strong>
                                 </td>
-                                <td>Albert Cook</td>
                                 <td>
                                     <span class="badge bg-label-primary me-1">{{ $janjitemu['status'] }}</span>
                                 </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0);">
-                                                <i class="bx bx-edit-alt me-1"></i>
-                                                Edit
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:void(0);">
-                                                <i class="bx bx-trash me-1"></i>
-                                                Delete
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
+                                <td>{{ \Carbon\Carbon::parse($janjitemu['waktu_dimulai'])->format('d M Y, H:i') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($janjitemu['waktu_selesai'])->format('d M Y, H:i') }}</td>
                             </tr>
                         @empty
-                            <tr>
-                                <td>Tidak ada data</td>
+                            <tr class="text-center">
+                                <td class="text-center">
+                                    <h3>Tidak Ada Request {{ $title }}</h3>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>

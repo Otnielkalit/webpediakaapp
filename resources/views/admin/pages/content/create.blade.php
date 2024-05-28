@@ -1,4 +1,5 @@
 @extends('admin.layouts.admin_master')
+
 @section('content')
     <h1>Buat Konten</h1>
     <div class="card mb-4">
@@ -7,15 +8,27 @@
                 @csrf
                 <div class="mb-3">
                     <label for="judul" class="form-label">Judul Content</label>
-                    <input class="form-control" type="text" name="judul" id="judul">
+                    <input class="form-control" type="text" name="judul" id="judul" required>
                 </div>
                 <div class="mb-3">
                     <label>Isi Content</label>
-                    <textarea id="isi_content" class="form-control" placeholder="Enter the Description" name="isi_content" rows="20"></textarea>
+                    <textarea id="editor" placeholder="Enter the Description" name="isi_content" rows="20" required></textarea>
                 </div>
-                <div class="mb-3 col-md-6">
-                    <label for="image_content" class="form-label">Gambar Konten</label>
-                    <input class="form-control" type="file" id="image_content" name="image_content">
+                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                    <img src="{{ asset('asset-admin/assets/img/avatars/upload.png') }}" alt="user-avatar"
+                        class="d-block rounded" height="250" width="250" id="img">
+                    <div class="button-wrapper">
+                        <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <span class="d-none d-sm-block">Upload new photo</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input type="file" id="upload" name="image_content" class="account-file-input" hidden
+                                accept="image/png, image/jpeg" required>
+                        </label>
+                        <button type="button" class="btn btn-outline-secondary account-image-reset mb-4" id="reset">
+                            <i class="bx bx-reset d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Reset</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="mt-2">
                     <button type="submit" class="btn btn-primary me-2">Tambah Sekarang</button>
@@ -24,28 +37,24 @@
         </div>
     </div>
 @endsection
-
-@section('script')
-    <!-- include libraries(jQuery, bootstrap) -->
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-
-    <!-- include summernote css/js -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#isi_content').summernote({
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']]
-                ]
-            });
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let img = document.getElementById('img');
+        let input = document.getElementById('upload');
+        let resetBtn = document.getElementById('reset');
+        input.addEventListener('change', function(e) {
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {       
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         });
-    </script>
-@endsection
+        resetBtn.addEventListener('click', function(e) {
+            img.src =
+                '{{ asset('asset-admin/assets/img/avatars/upload.png') }}';
+            input.value = '';
+        });
+    });
+</script>

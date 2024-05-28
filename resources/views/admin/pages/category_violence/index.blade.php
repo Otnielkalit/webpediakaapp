@@ -19,7 +19,7 @@
                         <h4 class="mb-2 pb-1">{{ $category_violence['category_name'] }}</h4>
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <button type="button" class="btn btn-primary btn-detail" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-sm btn-primary btn-detail" data-bs-toggle="modal"
                                     data-bs-target="#modalCenter" data-category-id="{{ $category_violence['id'] }}"
                                     data-category-image="{{ $category_violence['image'] }}"
                                     data-category-name="{{ $category_violence['category_name'] }}">
@@ -27,13 +27,18 @@
                                 </button>
                             </div>
                             <div class="col-auto">
+                                <a href="{{ route('category-violence.edit', ['category_violence' => $category_violence['id']]) }}"
+                                    class="btn btn-sm btn-warning">
+                                    <span class="tf-icons bx bx-pencil"></span>&nbsp;Edit
+                                </a>
+                            </div>
+                            <div class="col-auto">
                                 <form
                                     action="{{ route('category-violence.destroy', ['category_violence' => $category_violence['id']]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
+                                    <button type="submit" class="btn btn-sm btn-danger" id="deletecategory">
                                         <span class="tf-icons bx bx-trash"></span>&nbsp;Hapus
                                     </button>
                                 </form>
@@ -65,29 +70,15 @@
                     <h5 class="modal-title" id="modalCenterTitle">Detail Kategory</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <form action="{{ route('category-violence.update', ['category_violence' => $category_violence['id']]) }}"
-                    method="POST" enctype="multipart/form-data">
+                <form>
                     @csrf
                     @method('PUT')
                     <div class="card-body">
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
 
-                            <img src="" id="categoryImage" height="100" width="100"
+                            <img src="" id="categoryImage" height="300" width="300"
                                 class="d-block rounded img-fluid" alt="Category Image">
-                            <div class="button-wrapper">
-                                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                                    <span class="d-none d-sm-block">Upload new photo</span>
-                                    <i class="bx bx-upload d-block d-sm-none"></i>
-                                    <input type="file" id="upload" class="ac Gcount-file-input" hidden
-                                        accept="image/png, image/jpeg">
-                                </label>
-                                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
-                                    <i class="bx bx-reset d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">Reset</span>
-                                </button>
-                                <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
-                            </div>
+
                         </div>
                     </div>
                     <div class="modal-body">
@@ -95,12 +86,9 @@
                             <div class="col mb-3">
                                 <label for="categoryName" class="form-label">Nama Kategori</label>
                                 <input type="text" name="category_name" value="category_name" id="categoryName"
-                                    class="form-control">
+                                    class="form-control" disabled>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -118,6 +106,52 @@
                 document.getElementById('categoryImage').src = categoryImage;
                 document.getElementById('categoryName').value = categoryName;
             });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function() {
+        $(document).on('submit', '#deletecategory', function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var link = form.attr("action");
+
+            Swal.fire({
+                title: 'Yakin Menghapus Kategori ini?',
+                text: "Jika anda menghapus maka data tidak akan bisa kembali!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: link,
+                        type: 'POST',
+                        data: {
+                            '_method': 'DELETE',
+                            '_token': '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            ).then(() => {
+                                // Reload or redirect to another page
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire(
+                                'Error!',
+                                'An error occurred while deleting the file.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            })
         });
     });
 </script>

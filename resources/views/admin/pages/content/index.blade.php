@@ -36,12 +36,12 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <a href="javascript:void(0);" class="btn btn-info"><span
-                                        class="tf-icons bx bx-show"></span>&nbsp;Detail</a>
+                                <a href="{{ route('content.show', ['content' => $content['id']]) }}"
+                                    class="btn btn-info"><span class="tf-icons bx bx-show"></span>&nbsp;Detail</a>
                             </div>
                             <div class="col-auto">
-                                <a href="javascript:void(0);" class="btn btn-warning"><span
-                                        class="tf-icons bx bx-edit"></span>&nbsp;Edit</a>
+                                <a href="{{ route('content.edit', ['content' => $content['id']]) }}"
+                                    class="btn btn-warning"><span class="tf-icons bx bx-edit"></span>&nbsp;Edit</a>
                             </div>
                             <div class="col-auto">
 

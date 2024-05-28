@@ -31,18 +31,10 @@ class AdminContentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
-        $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/violence-categories');
-        if ($response->successful()) {
-            $categoryViolence = $response->json()['Data'];
-        } else {
-            $categoryViolence = [];
-        }
         return view('admin.pages.content.create', [
-            'title' => 'Create a new resource',
-            'categoryViolence' => $categoryViolence,
+            'title' => 'Buat Konten baru',
         ]);
     }
 
@@ -57,8 +49,8 @@ class AdminContentController extends Controller
         $image_content = $request->file('image_content');
         $validator = Validator::make($request->all(), [
             'judul' => 'required|string|max:255',
-            'isi_content' => 'required|string',
-            'image_content' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
+            'isi_content' => 'required',
+            'image_content' => 'required|image|mimes:jpeg,png,jpg,gif|max:7000',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -70,7 +62,7 @@ class AdminContentController extends Controller
                 'isi_content' => $isi_content,
             ]);
         if ($response->successful()) {
-            return redirect()->route('content.index')->with('success', 'Kategori kekerasan berhasil ditambahkan.');
+            return redirect()->route('content.index')->with('success', 'Konten berhasil dibuat');
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan kategori kekerasan. Silakan coba lagi.');
         }
@@ -79,17 +71,40 @@ class AdminContentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, $id)
     {
-        //
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-content/' . $id);
+
+        if ($response->successful()) {
+            $contentDetail = $response->json()['Data'];
+            return view('admin.pages.content.detail', [
+                'title' => 'Detail Konten',
+                'contentDetail' => $contentDetail,
+            ]);
+        } else {
+            return redirect()->back()->with('error', 'Gagal mengambil data konten. Silakan coba lagi.');
+        }
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id)
     {
-        //
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-event/' . $id);
+
+        if ($response->successful()) {
+            $content = $response->json()['Data'];
+            return view('admin.pages.content.update', [
+                'title' => 'Edit Category Violence',
+                'content' => $content,
+            ]);
+        } else {
+            return redirect()->back()->with('error', 'Gagal mengambil data kategori kekerasan. Silakan coba lagi.');
+        }
     }
 
     /**

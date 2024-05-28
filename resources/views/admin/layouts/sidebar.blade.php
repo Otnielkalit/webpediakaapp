@@ -54,7 +54,6 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
         <li class="menu-item {{ \Route::is('admin.dashboard') ? 'active' : '' }}">
-
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
@@ -66,28 +65,39 @@
                 <div class="text-truncate" data-i18n="Dashboards">Laporan</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ \Route::is('laporan.index') ? 'active' : '' }}">
-                    <a href="{{ route('laporan.index') }}" class="menu-link">
+                <li
+                    class="menu-item {{ \Route::is('laporan.masuk') || \Route::is('laporan.masuk-detail') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.masuk') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
-                        <div data-i18n="Analytics">Belum Disetujui</div>
+                        <div data-i18n="Analytics">Laporan Masuk</div>
                     </a>
                 </li>
-                <li class="menu-item {{ \Route::is('janji-temu.disetujui') ? 'active' : '' }}">
-                    <a href="{{ route('janji-temu.disetujui') }}" class="menu-link">
+
+                <li
+                    class="menu-item {{ \Route::is('laporan.dilihat') || \Route::is('laporan.detail-dilihat') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.dilihat') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
-                        <div data-i18n="Analytics">Disetujui</div>
+                        <div data-i18n="Analytics">Sudah Dilihat</div>
                     </a>
                 </li>
-                <li class="menu-item {{ \Route::is('janji-temu.ditolak') ? 'active' : '' }}">
-                    <a href="{{ route('janji-temu.ditolak') }}" class="menu-link">
+                <li
+                    class="menu-item {{ \Route::is('laporan.diproses') || \Route::is('laporan.detail-diproses') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.diproses') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
-                        <div data-i18n="Analytics">Ditolak</div>
+                        <div data-i18n="Analytics">Laporan Diproses</div>
                     </a>
                 </li>
-                <li class="menu-item {{ \Route::is('janji-temu.dibatalkan') ? 'active' : '' }}">
-                    <a href="{{ route('janji-temu.dibatalkan') }}" class="menu-link">
+                <li
+                    class="menu-item {{ \Route::is('laporan.dibatalkan') || \Route::is('laporan.detail-dibatalkan') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.dibatalkan') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
-                        <div data-i18n="Analytics">Dibatalkan</div>
+                        <div data-i18n="Analytics">Laporan Dibatalkan</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ \Route::is('laporan.selesai') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.selesai') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-detail"></i>
+                        <div data-i18n="Analytics">Laporan Selesai</div>
                     </a>
                 </li>
             </ul>
@@ -98,25 +108,29 @@
                 <div class="text-truncate" data-i18n="Dashboards">Booking Janji Temu</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ \Route::is('janji-temu.index') ? 'active' : '' }}">
+                <li
+                    class="menu-item {{ \Route::is('janji-temu.index') || \Route::is('janji-temu.detail') ? 'active' : '' }}">
                     <a href="{{ route('janji-temu.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
                         <div data-i18n="Analytics">Belum Disetujui</div>
                     </a>
                 </li>
-                <li class="menu-item {{ \Route::is('janji-temu.disetujui') ? 'active' : '' }}">
+                <li
+                    class="menu-item {{ \Route::is('janji-temu.disetujui') || \Route::is('janji-temu.detail-disetujui') ? 'active' : '' }}">
                     <a href="{{ route('janji-temu.disetujui') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
                         <div data-i18n="Analytics">Disetujui</div>
                     </a>
                 </li>
-                <li class="menu-item {{ \Route::is('janji-temu.ditolak') ? 'active' : '' }}">
+                <li
+                    class="menu-item {{ \Route::is('janji-temu.ditolak') || \Route::is('janji-temu.detail-ditolak') ? 'active' : '' }}">
                     <a href="{{ route('janji-temu.ditolak') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
                         <div data-i18n="Analytics">Ditolak</div>
                     </a>
                 </li>
-                <li class="menu-item {{ \Route::is('janji-temu.dibatalkan') ? 'active' : '' }}">
+                <li
+                    class="menu-item {{ \Route::is('janji-temu.dibatalkan') || \Route::is('janji-temu.detail-dibatalkan') ? 'active' : '' }}">
                     <a href="{{ route('janji-temu.dibatalkan') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
                         <div data-i18n="Analytics">Dibatalkan</div>
@@ -130,7 +144,8 @@
                 <div class="text-truncate" data-i18n="Dashboards">Kategory Kekerasan</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ \Route::is('category-violence.index') ? 'active' : '' }}">
+                <li
+                    class="menu-item {{ \Route::is('category-violence.index') || \Route::is('category-violence.edit') ? 'active' : '' }}">
                     <a href="{{ route('category-violence.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
                         <div data-i18n="Analytics">Kategori kekerasan</div>
