@@ -2,8 +2,9 @@
 @section('content')
     <div class="card mb-4">
         <h5 class="card-header">Edit Category Kekerasan</h5>
-        <form action="{{ route('category-violence.update', ['category_violence' => $category_violence['id']]) }}"
-            method="POST" enctype="multipart/form-data">
+        <form id="edit-form"
+            action="{{ route('category-violence.update', ['category_violence' => $category_violence['id']]) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="card-body">
@@ -12,7 +13,7 @@
                         width="250" id="img">
                     <div class="button-wrapper">
                         <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                            <span class="d-none d-sm-block">Upload new photo</span>
+                            <span class="d-none d-sm-block">Masukkan Foto Baru</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
                             <input type="file" id="upload" name="image" class="account-file-input" hidden
                                 accept="image/png, image/jpeg">
@@ -36,7 +37,7 @@
                         </div>
                     </div>
                     <div class="mt-2">
-                        <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                        <button type="button" class="btn btn-primary me-2" id="save-changes-btn">Simpan Perubahan</button>
                     </div>
                 </div>
             </div>
@@ -49,6 +50,8 @@
         let img = document.getElementById('img');
         let input = document.getElementById('upload');
         let resetBtn = document.getElementById('reset');
+        let saveChangesBtn = document.getElementById('save-changes-btn');
+        let form = document.getElementById('edit-form');
 
         // Event listener untuk input file
         input.addEventListener('change', function(e) {
@@ -66,6 +69,24 @@
             // Reset ke gambar asli atau gambar default
             img.src = '{{ $category_violence['image'] }}';
             input.value = '';
+        });
+
+        // Event listener untuk tombol save changes
+        saveChangesBtn.addEventListener('click', function() {
+            Swal.fire({
+                title: 'Yakin ingin menyimpan perubahan?',
+                text: "Pastikan data yang diubah sudah benar!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
         });
     });
 </script>

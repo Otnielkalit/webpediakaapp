@@ -19,60 +19,33 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 posts-list">
-                    <div class="single-post">
-                        <div class="feature-img">
-                            <img class="img-fluid" src="assets/img/blog/single_blog_1.png" alt="">
-                        </div>
-                        <div class="blog_details">
-                            <h2>
-                                {{ $content['judul'] }}
-                            </h2>
-                            <ul class="blog-info-link mt-3 mb-4">
-                                <h5>Di posting pada {{ \Carbon\Carbon::parse($content['created_at'])->format('d M Y') }}
-                                </h5>
-                            </ul>
-                            <p class="excert">
-                                MCSE boot camps have its supporters and its detractors. Some people do not understand why
-                                you
-                                should have to spend money on boot camp when you can get the MCSE study materials yourself
-                                at a
-                                fraction of the camp price. However, who has the willpower
-                            </p>
-                            <p>
-                                MCSE boot camps have its supporters and its detractors. Some people do not understand why
-                                you
-                                should have to spend money on boot camp when you can get the MCSE study materials yourself
-                                at a
-                                fraction of the camp price. However, who has the willpower to actually sit through a
-                                self-imposed MCSE training. who has the willpower to actually
-                            </p>
-                            <div class="quote-wrapper">
-                                <div class="quotes">
-                                    MCSE boot camps have its supporters and its detractors. Some people do not understand
-                                    why you
-                                    should have to spend money on boot camp when you can get the MCSE study materials
-                                    yourself at
-                                    a fraction of the camp price. However, who has the willpower to actually sit through a
-                                    self-imposed MCSE training.
-                                </div>
+                    @if ($content)
+                        <div class="single-post">
+                            <div class="feature-img">
+                                <img class="img-fluid" src="{{ $content['image_content'] }}" alt="">
                             </div>
-                            <p>
-                                MCSE boot camps have its supporters and its detractors. Some people do not understand why
-                                you
-                                should have to spend money on boot camp when you can get the MCSE study materials yourself
-                                at a
-                                fraction of the camp price. However, who has the willpower
-                            </p>
-                            <p>
-                                MCSE boot camps have its supporters and its detractors. Some people do not understand why
-                                you
-                                should have to spend money on boot camp when you can get the MCSE study materials yourself
-                                at a
-                                fraction of the camp price. However, who has the willpower to actually sit through a
-                                self-imposed MCSE training. who has the willpower to actually
-                            </p>
+                            <div class="blog_details">
+                                <h2>
+                                    {{ $content['judul'] }}
+                                </h2>
+                                <ul class="blog-info-link mt-3 mb-4">
+                                    <h5>Di posting pada {{ \Carbon\Carbon::parse($content['created_at'])->format('d M Y') }}</h5>
+                                </ul>
+                                <p class="excert">
+                                    {!! $content['isi_content'] !!}
+                                </p>
+                                @if (isset($content['quote']))
+                                    <div class="quote-wrapper">
+                                        <div class="quotes">
+                                            {{ $content['quote'] }}
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <p>Blog content not found.</p>
+                    @endif
                 </div>
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">

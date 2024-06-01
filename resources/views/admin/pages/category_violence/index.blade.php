@@ -2,7 +2,7 @@
 @section('content')
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <div class="d-flex flex-column justify-content-center">
-            <h4 class="mb-1 mt-3">Daftar Category Kekerasn</h4>
+            <h4 class="mb-1 mt-3">Daftar Category Kekerasan</h4>
         </div>
         <div class="d-flex align-content-center flex-wrap gap-3">
             <a href="{{ route('category-violence.create') }}" class="btn btn-primary">Buat Kategori</a>
@@ -35,10 +35,10 @@
                             <div class="col-auto">
                                 <form
                                     action="{{ route('category-violence.destroy', ['category_violence' => $category_violence['id']]) }}"
-                                    method="POST">
+                                    method="POST" class="delete-category-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" id="deletecategory">
+                                    <button type="button" class="btn btn-sm btn-danger btn-delete-category">
                                         <span class="tf-icons bx bx-trash"></span>&nbsp;Hapus
                                     </button>
                                 </form>
@@ -67,7 +67,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalCenterTitle">Detail Kategory</h5>
+                    <h5 class="modal-title" id="modalCenterTitle">Detail Kategori</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form>
@@ -75,10 +75,8 @@
                     @method('PUT')
                     <div class="card-body">
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
-
                             <img src="" id="categoryImage" height="300" width="300"
                                 class="d-block rounded img-fluid" alt="Category Image">
-
                         </div>
                     </div>
                     <div class="modal-body">
@@ -95,6 +93,7 @@
         </div>
     </div>
 @endsection
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const detailButtons = document.querySelectorAll('.btn-detail');
@@ -109,49 +108,38 @@
         });
     });
 </script>
-<script type="text/javascript">
-    $(function() {
-        $(document).on('submit', '#deletecategory', function(e) {
-            e.preventDefault();
-            var form = $(this);
-            var link = form.attr("action");
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const detailButtons = document.querySelectorAll('.btn-detail');
+        detailButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const categoryId = button.getAttribute('data-category-id');
+                const categoryImage = button.getAttribute('data-category-image');
+                const categoryName = button.getAttribute('data-category-name');
+                document.getElementById('categoryImage').src = categoryImage;
+                document.getElementById('categoryName').value = categoryName;
+            });
+        });
 
-            Swal.fire({
-                title: 'Yakin Menghapus Kategori ini?',
-                text: "Jika anda menghapus maka data tidak akan bisa kembali!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: link,
-                        type: 'POST',
-                        data: {
-                            '_method': 'DELETE',
-                            '_token': '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                            ).then(() => {
-                                // Reload or redirect to another page
-                            });
-                        },
-                        error: function(xhr) {
-                            Swal.fire(
-                                'Error!',
-                                'An error occurred while deleting the file.',
-                                'error'
-                            );
-                        }
-                    });
-                }
-            })
+        const deleteButtons = document.querySelectorAll('.btn-delete-category');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const form = button.closest('form');
+                Swal.fire({
+                    title: 'Yakin Menghapus Kategori ini?',
+                    text: "Jika anda menghapus maka data tidak akan bisa kembali!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
         });
     });
 </script>

@@ -41,7 +41,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">Belum Ada Laporan yang baru masuk</td>
+                            <td colspan="5" class="text-center">
+                                <h2>Belum Ada Laporan yang baru masuk</h2>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

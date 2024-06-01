@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminContentController extends Controller
 {
@@ -33,40 +34,72 @@ class AdminContentController extends Controller
      */
     public function create()
     {
+        $headers = ApiHelper::getAuthorizationHeader(request());
+        $responseCategories = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/violence-categories');
+
+        $categoryViolences = [];
+        if ($responseCategories->successful()) {
+            $categoryViolences = $responseCategories->json()['Data'];
+        }
+
         return view('admin.pages.content.create', [
-            'title' => 'Buat Konten baru',
+            'title' => 'Buat Konten Baru',
+            'category_violences' => $categoryViolences,
         ]);
     }
+
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        // Prepare the headers
         $headers = ApiHelper::getAuthorizationHeader($request);
-        $judul = $request->input('judul');
-        $isi_content = $request->input('isi_content');
-        $image_content = $request->file('image_content');
+
+        // Validate the request
         $validator = Validator::make($request->all(), [
-            'judul' => 'required|string|max:255',
-            'isi_content' => 'required',
-            'image_content' => 'required|image|mimes:jpeg,png,jpg,gif|max:7000',
+            'nama_event' => 'required|string|max:255',
+            'tanggal_pelaksanaan' => 'required|date',
+            'deskripsi_event' => 'required|string',
+            'thumbnail_event' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
         ]);
+
+        // Handle validation failure
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        // Handle the image file
+        $image = $request->file('thumbnail_event');
+        $imageContent = file_get_contents($image);
+
+        // Prepare the data for the API request
+        $data = [
+            'nama_event' => $request->input('nama_event'),
+            'tanggal_pelaksanaan' => $request->input('tanggal_pelaksanaan'),
+            'deskripsi_event' => $request->input('deskripsi_event'),
+        ];
+
+        // Make the API request
         $response = Http::withHeaders($headers)
-            ->attach('image_content', file_get_contents($image_content), $image_content->getClientOriginalName())
-            ->post(env('API_URL') . 'api/admin/create-content', [
-                'judul' => $judul,
-                'isi_content' => $isi_content,
-            ]);
+            ->attach('thumbnail_event', $imageContent, $image->getClientOriginalName())
+            ->post(env('API_URL') . 'api/admin/create-event', $data);
+
+        // Handle the API response
         if ($response->successful()) {
-            return redirect()->route('content.index')->with('success', 'Konten berhasil dibuat');
+            Alert::success('Success', $response->json('message'));
+            return redirect()->route('event.index')->with('success', 'Event berhasil dibuat.');
         } else {
-            return redirect()->back()->with('error', 'Gagal menambahkan kategori kekerasan. Silakan coba lagi.');
+            Alert::error('Error', $response->json('message'));
+            return redirect()->back()->with('error', 'Gagal membuat event. Silakan coba lagi.');
         }
     }
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -87,45 +120,81 @@ class AdminContentController extends Controller
         }
     }
 
-
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Request $request, $id)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
-        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-event/' . $id);
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-content/' . $id);
 
         if ($response->successful()) {
             $content = $response->json()['Data'];
             return view('admin.pages.content.update', [
-                'title' => 'Edit Category Violence',
+                'title' => 'Edit Konten',
                 'content' => $content,
             ]);
         } else {
-            return redirect()->back()->with('error', 'Gagal mengambil data kategori kekerasan. Silakan coba lagi.');
+            return redirect()->back()->with('error', 'Gagal mengambil data konten. Silakan coba lagi.');
         }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'judul' => 'required|string|max:255',
+            'isi_content' => 'required|string',
+            'image_content' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:7000',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $judul = $request->input('judul');
+        $isi_content = $request->input('isi_content');
+        $image_content = $request->file('image_content');
+
+        $response = Http::withHeaders($headers)
+            ->asMultipart();
+
+        $response->attach('judul', $judul);
+        $response->attach('isi_content', $isi_content);
+
+        if ($image_content) {
+            $response->attach('image_content', file_get_contents($image_content), $image_content->getClientOriginalName());
+        }
+
+        $response = $response->put(env('API_URL') . 'api/admin/edit-content/' . $id);
+
+        if ($response->successful()) {
+            Alert::success('Success', $response->json('message'));
+            return redirect()->route('content.index')->with('success', 'Konten berhasil diperbarui');
+        } else {
+            Alert::error('Error', $response->json('message'));
+            return redirect()->back()->with('error', 'Gagal memperbarui konten. Silakan coba lagi.');
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, string $id)
+    public function destroy(Request $request, $id)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
         $response = Http::withHeaders($headers)->delete(env('API_URL') . "api/admin/delete-content/{$id}");
+
         if ($response->successful()) {
-            return redirect()->route('content.index')->with('success', 'Kategori kekerasan berhasil dihapus.');
+            Alert::success('Success', $response->json('message'));
+            return redirect()->route('content.index');
         } else {
-            return redirect()->back()->with('error', 'Gagal menghapus kategori kekerasan. Silakan coba lagi.');
+            Alert::error('Error', $response->json('message'));
+            return redirect()->back();
         }
     }
 }

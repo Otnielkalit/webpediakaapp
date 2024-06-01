@@ -10,7 +10,7 @@
                         height="250" width="250" id="img">
                     <div class="button-wrapper">
                         <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                            <span class="d-none d-sm-block">Upload new photo</span>
+                            <span class="d-none d-sm-block">Masukkan Gambar</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
                             <input type="file" id="upload" name="image" class="account-file-input" hidden
                                 accept="image/png, image/jpeg">
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="mt-2">
-                        <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                        <button type="submit" class="btn btn-primary me-2">Buat Kategori</button>
                     </div>
                 </div>
             </div>

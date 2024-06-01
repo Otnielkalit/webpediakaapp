@@ -1,14 +1,12 @@
 @extends('admin.layouts.admin_master')
 @section('content')
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-
         <div class="d-flex flex-column justify-content-center">
             <h4 class="mb-1 mt-3">Daftar Konten</h4>
         </div>
         <div class="d-flex align-content-center flex-wrap gap-3">
             <a href="{{ route('content.create') }}" class="btn btn-primary">Buat Content</a>
         </div>
-
     </div>
     <div class="row">
         @forelse ($contents as $content)
@@ -19,7 +17,6 @@
                             <img class="img-fluid w-60" src="{{ $content['image_content'] }}" alt="Card girl image" />
                         </div>
                         <h4 class="mb-2 pb-1">{{ $content['judul'] }}</h4>
-                        <p class="small">{!! $content['isi_content'] !!}</p>
                         <div class="row mb-3 g-3">
                             <div class="col-6">
                                 <div class="d-flex">
@@ -28,8 +25,8 @@
                                                 class="bx bx-calendar-exclamation bx-sm"></i></span>
                                     </div>
                                     <div>
-                                        <h6 class="mb-0 text-nowrap">17 Nov 23</h6>
-                                        <small>Date</small>
+                                        <h6 class="mb-0 text-nowrap">{{ \Carbon\Carbon::parse($content['updated_at'])->format('d M Y, H:i') }}</h6>
+                                        <small>Update terakhir</small>
                                     </div>
                                 </div>
                             </div>
@@ -44,13 +41,11 @@
                                     class="btn btn-warning"><span class="tf-icons bx bx-edit"></span>&nbsp;Edit</a>
                             </div>
                             <div class="col-auto">
-
-
-                                <form action="{{ route('content.destroy', ['content' => $content['id']]) }}" method="POST">
+                                <form id="delete-form-{{ $content['id'] }}"
+                                    action="{{ route('content.destroy', ['content' => $content['id']]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Apakah Anda yakin ingin menghapus konten ini?');">
+                                    <button type="button" class="btn btn-danger delete-btn" data-id="{{ $content['id'] }}">
                                         <span class="tf-icons bx bx-trash"></span>&nbsp;Hapus
                                     </button>
                                 </form>
@@ -76,3 +71,28 @@
         @endforelse
     </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle delete button click event
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var contentId = this.getAttribute('data-id');
+                Swal.fire({
+                    title: 'Apakah Anda yakin ingin menghapus konten ini?',
+                    text: "Jika anda menghapus maka data tidak akan bisa kembali!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('delete-form-' + contentId).submit();
+                    }
+                });
+            });
+        });
+    });
+</script>

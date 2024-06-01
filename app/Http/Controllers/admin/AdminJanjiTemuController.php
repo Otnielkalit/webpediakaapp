@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminJanjiTemuController extends Controller
 {
@@ -53,11 +53,15 @@ class AdminJanjiTemuController extends Controller
         $response = Http::withHeaders($headers)->put(env('API_URL') . 'api/admin/approve-janjitemu/' . $id);
 
         if ($response->successful()) {
-            return redirect()->route('janji-temu.detail-disetujui', ['id' => $id])->with('success', 'Janji temu berhasil disetujui.');
+            $responseData = $response->json();
+            $message = $responseData['message'];
+            Alert::success('Success', $message);
+            return redirect()->route('janji-temu.detail-disetujui', ['id' => $id]);
         }
 
         return redirect()->back()->with('error', 'Gagal menyetujui janji temu. Silakan coba lagi.');
     }
+
 
     public function tolak(Request $request, $id)
     {
@@ -65,23 +69,28 @@ class AdminJanjiTemuController extends Controller
         $validator = Validator::make($request->all(), [
             'alasan_ditolak' => 'required|string|max:255',
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         $alasan_ditolak = $request->input('alasan_ditolak');
         $response = Http::withHeaders($headers)
             ->asMultipart()
             ->attach('alasan_ditolak', $alasan_ditolak)
             ->put(env('API_URL') . 'api/admin/cancel-janjitemu/' . $id);
+
+        $responseData = $response->json();
+        $message = $responseData['message'] ?? 'Gagal memperbarui janji temu. Silakan coba lagi.';
+
         if ($response->successful()) {
-            return redirect()->route('janji-temu.detail-ditolak', ['id' => $id])->with('success', 'Janji temu berhasil ditolak.');
+            Alert::success('Success', $message);
+            return redirect()->route('janji-temu.detail-ditolak', ['id' => $id])->with('success', $message);
         } else {
-            $errorMessage = $response->json()['message'] ?? 'Gagal memperbarui janji temu. Silakan coba lagi.';
-            return redirect()->back()->with('error', $errorMessage);
+            Alert::error('Error', $message);
+            return redirect()->back()->with('error', $message);
         }
     }
-
-
 
 
 

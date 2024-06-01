@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\AdminEventController;
 use App\Http\Controllers\admin\AdminJanjiTemuController;
 use App\Http\Controllers\admin\AdminKategoryKekerasan;
 use App\Http\Controllers\admin\AdminLaporanController;
+use App\Http\Controllers\admin\AdminPelakuController;
 use App\Http\Controllers\admin\DashboardAdminController;
 use App\Http\Controllers\admin\ProfileAdminController;
 use App\Http\Controllers\admin\TrackingLaporanController;
@@ -31,8 +32,17 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', [DashboardPublicController::class, 'welcome'])->name('welcome');
 Route::get('/feature', [DashboardPublicController::class, 'feature'])->name('feature');
-Route::get('/blog', [DashboardPublicController::class, 'blog'])->name('blog');
-Route::get('/blog-detail/{id}', [DashboardPublicController::class, 'detailBlog'])->name('blog.detail');
+Route::get('/content', [DashboardPublicController::class, 'content'])->name('content');
+Route::get('/content-detail/{id}', [DashboardPublicController::class, 'detailContent'])->name('content.detail');
+Route::get('/content/searchByCategory', [DashboardPublicController::class, 'searchByCategory'])->name('content.searchByCategory');
+Route::get('/content/search', [DashboardPublicController::class, 'search'])->name('content.search');
+Route::get('/search/category/{category_name}', [DashboardPublicController::class, 'searchByCategory'])->name('content.searchByCategory');
+
+
+
+
+Route::get('/event', [DashboardPublicController::class, 'event'])->name('event');
+Route::get('/event-detail/{id}', [DashboardPublicController::class, 'eventDetail'])->name('event.detail');
 Route::get('/contact', [DashboardPublicController::class, 'contact'])->name('contact');
 
 
@@ -42,6 +52,8 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::resource('/admin/content', AdminContentController::class);
     Route::resource('/admin/category-violence', AdminKategoryKekerasan::class);
     Route::resource('/admin/event', AdminEventController::class);
+    Route::get('admin/emergency-contact/{id}', [DashboardAdminController::class, 'showEmergencyContact'])->name('emergency-contact.show');
+    Route::put('admin/edit-contact', [DashboardAdminController::class, 'updateContact'])->name('contact.update');
 
     /*||============================================== K E L O L A L A P O R A N ============================================== ||*/
     Route::get('/admin/laporan-masuk', [AdminLaporanController::class, 'masuk'])->name('laporan.masuk');
@@ -50,6 +62,8 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::put('/admin/proses-laporan/{no_registrasi}', [AdminLaporanController::class, 'proses'])->name('laporan.proses');
     Route::get('/admin/laporan-diproses', [AdminLaporanController::class, 'diproses'])->name('laporan.diproses');
     Route::get('/admin/detail-laporan-diproses/{no_registrasi}', [AdminLaporanController::class, 'detailDiProses'])->name('laporan.detail-diproses');
+
+    Route::post('/admin/create-pelaku-kekerasan', [AdminPelakuController::class, 'store'])->name('pelaku.store');
 
 
     Route::put('admin/lihat-laporan/{no_registrasi}', [AdminLaporanController::class, 'lihat'])->name('laporan.lihat');

@@ -5,10 +5,11 @@
     <div class="card">
         <h5 class="card-header">Janji Temu di request oleh {{ $detailJanjiTemu['user']['full_name'] }}</h5>
         <div class="card-body d-flex justify-content-start">
-            <form action="{{ route('janji-temu.setujui', ['id' => $detailJanjiTemu['id']]) }}" method="POST">
+            <form id="approve-form" action="{{ route('janji-temu.setujui', ['id' => $detailJanjiTemu['id']]) }}"
+                method="POST">
                 @csrf
                 @method('PUT')
-                <button type="submit" class="btn btn-primary me-2">
+                <button type="button" class="btn btn-primary me-2" id="approve-button">
                     <i class="bx bx-check"></i> Setujui
                 </button>
             </form>
@@ -90,38 +91,74 @@
         </div>
     </div>
     <!-- Tolak Pertemuan -->
-<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalCenterTitle">Tolak Pertemuan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('janji-temu.tolak', ['id' => $detailJanjiTemu['id']]) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label" for="alasan_ditolak">Alasan Ditolak</label>
-                        <div class="input-group input-group-merge">
-                            <span id="basic-icon-default-message2" class="input-group-text">
-                                <i class="bx bx-comment"></i>
-                            </span>
-                            <textarea id="alasan_ditolak" name="alasan_ditolak" rows="3" class="form-control" placeholder="Kenapa anda menolak Pertemuan ini?"
-                                aria-label="Kenapa anda menolak Pertemuan ini?" aria-describedby="basic-icon-default-message2" required></textarea>
+    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">Tolak Pertemuan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="reject-form" action="{{ route('janji-temu.tolak', ['id' => $detailJanjiTemu['id']]) }}"
+                    method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="alasan_ditolak">Alasan Ditolak</label>
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-message2" class="input-group-text">
+                                    <i class="bx bx-comment"></i>
+                                </span>
+                                <textarea id="alasan_ditolak" name="alasan_ditolak" rows="3" class="form-control"
+                                    placeholder="Kenapa anda menolak Pertemuan ini?" aria-label="Kenapa anda menolak Pertemuan ini?"
+                                    aria-describedby="basic-icon-default-message2" required></textarea>
+                            </div>
+                            @error('alasan_ditolak')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @error('alasan_ditolak')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Tolak Sekarang</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-primary" id="reject-button">Tolak Sekarang</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
 @endsection
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('approve-button').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Yakin ingin menyetujui janji temu ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, setujui!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('approve-form').submit();
+                }
+            });
+        });
+        document.getElementById('reject-button').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Yakin ingin menolak janji temu ini?',
+                text: "Alasan harus diisi sebelum menolak.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, tolak!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('reject-form').submit();
+                }
+            });
+        });
+    });
+</script>

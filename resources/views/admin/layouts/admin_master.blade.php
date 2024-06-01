@@ -22,12 +22,20 @@
     <link rel="stylesheet" href="asset-admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css">
     <link rel="stylesheet" href="asset-admin/assets/css/demo.css">
     <script src="asset-admin/assets/vendor/js/helpers.js"></script>
-    <script src="asset-admin/assets/js/config.js"></script>z
+    <script src="asset-admin/assets/js/config.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-
+    <!-- Custom CSS for SweetAlert z-index -->
+    <style>
+        .swal2-container {
+            z-index: 2000 !important;
+            /* Adjust this value if necessary */
+        }
+    </style>
 </head>
 
 <body>
+    @include('sweetalert::alert')
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             @include('admin.layouts.sidebar')
@@ -35,7 +43,6 @@
                 @include('admin.layouts.header')
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
-
                         @yield('content')
                     </div>
                     @include('admin.layouts.footer')
@@ -44,6 +51,7 @@
             </div>
         </div>
         <div class="layout-overlay layout-menu-toggle"></div>
+
     </div>
     <script src="asset-admin/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="asset-admin/assets/vendor/libs/popper/popper.js"></script>
@@ -64,8 +72,30 @@
                 console.error(error);
             });
     </script>
-    @stack('scripts')
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let imgPreview = document.getElementById('img-preview');
+            let inputFile = document.getElementById('upload');
+            let resetBtn = document.getElementById('reset');
+
+            inputFile.addEventListener('change', function(e) {
+                if (inputFile.files && inputFile.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        imgPreview.src = event.target.result;
+                    };
+                    reader.readAsDataURL(inputFile.files[0]);
+                }
+            });
+
+            resetBtn.addEventListener('click', function() {
+                imgPreview.src = '{{ asset('asset-admin/assets/img/avatars/upload.png') }}';
+                inputFile.value = '';
+            });
+        });
+    </script>
+    @stack('scripts')
 </body>
 
 </html>

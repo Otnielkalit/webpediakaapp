@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 class AdminKategoryKekerasan extends Controller
@@ -62,8 +63,10 @@ class AdminKategoryKekerasan extends Controller
                 'category_name' => $category_name,
             ]);
         if ($response->successful()) {
+            Alert::success('Success', $response->json('message'));
             return redirect()->route('category-violence.index')->with('success', 'Kategori kekerasan berhasil ditambahkan.');
         } else {
+            Alert::error('Error', $response->json('message'));
             return redirect()->back()->with('error', 'Gagal menambahkan kategori kekerasan. Silakan coba lagi.');
         }
     }
@@ -71,8 +74,9 @@ class AdminKategoryKekerasan extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
+        $headers = ApiHelper::getAuthorizationHeader($request);
         $response = Http::get(env('API_URL') . 'api/admin/violence-category' . $id);
         if ($response->successful()) {
             return response()->json($response->json()['Data']);
@@ -132,15 +136,13 @@ class AdminKategoryKekerasan extends Controller
         $response = $response->put(env('API_URL') . 'api/admin/edit-violence-category/' . $id);
 
         if ($response->successful()) {
+            Alert::success('Success', $response->json('message'));
             return redirect()->route('category-violence.index')->with('success', 'Kategori kekerasan berhasil diperbarui.');
         } else {
+            Alert::error('Error', $response->json('message'));
             return redirect()->back()->with('error', 'Gagal memperbarui kategori kekerasan. Silakan coba lagi.');
         }
     }
-
-
-
-
 
 
     /**
@@ -150,10 +152,13 @@ class AdminKategoryKekerasan extends Controller
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
         $response = Http::withHeaders($headers)->delete(env('API_URL') . "api/admin/delete-violence-category/{$id}");
-        if ($response->successful()) {
-            return redirect()->route('category-violence.index')->with('success', 'Kategori kekerasan berhasil dihapus.');
+
+        if ($response->successful() && $response->json('status') == 'success') {
+            Alert::success('Success', $response->json('message'));
+            return redirect()->route('category-violence.index')->with('success', $response->json('message'));
         } else {
-            return redirect()->back()->with('error', 'Gagal menghapus kategori kekerasan. Silakan coba lagi.');
+            Alert::error('Error', $response->json('message'));
+            return redirect()->back();
         }
     }
 }

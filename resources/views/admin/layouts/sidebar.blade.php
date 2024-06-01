@@ -165,7 +165,8 @@
                 <div class="text-truncate" data-i18n="Dashboards">List Content</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ \Route::is('content.index') ? 'active' : '' }}">
+                <li
+                    class="menu-item {{ \Route::is('content.index') || \Route::is('content.show') || \Route::is('content.edit') ? 'active' : '' }}">
                     <a href="{{ route('content.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
                         <div data-i18n="Analytics">Content</div>

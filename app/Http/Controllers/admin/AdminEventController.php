@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminEventController extends Controller
 {
@@ -43,27 +44,48 @@ class AdminEventController extends Controller
      */
     public function store(Request $request)
     {
-        $headers = ApiHelper::getAuthorizationHeader($request);
-        $category_name = $request->input('category_name');
-        $image = $request->file('image');
+        // Validate the request
         $validator = Validator::make($request->all(), [
-            'category_name' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nama_event' => 'required|string|max:255',
+            'tanggal_pelaksanaan' => 'required|date',
+            'isi_content' => 'required|string',
+            'thumbnail_event' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Handle validation failure
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        // Handle the image file
+        $image = $request->file('image');
+        $thumbnailEvent = $image ? file_get_contents($image) : null;
+
+        // Prepare the headers
+        $headers = ApiHelper::getAuthorizationHeader($request);
+
+        // Prepare the data for the API request
+        $data = [
+            'nama_event' => $request->input('nama_event'),
+            'tanggal_pelaksanaan' => $request->input('tanggal_pelaksanaan'),
+            'isi_content' => $request->input('isi_content'),
+        ];
+
+        // Make the API request
         $response = Http::withHeaders($headers)
-            ->attach('image', file_get_contents($image), $image->getClientOriginalName())
-            ->post(env('API_URL') . 'api/admin/create-violence-category', [
-                'category_name' => $category_name,
-            ]);
+            ->attach('image', $thumbnailEvent, $image ? $image->getClientOriginalName() : '')
+            ->post(env('API_URL') . 'api/admin/create-event', $data);
+
+        // Handle the API response
         if ($response->successful()) {
-            return redirect()->route('category-violence.index')->with('success', 'Kategori kekerasan berhasil ditambahkan.');
+            Alert::success('Success', $response->json('message'));
+            return redirect()->route('event.index')->with('success', 'Event berhasil dibuat.');
         } else {
-            return redirect()->back()->with('error', 'Gagal menambahkan kategori kekerasan. Silakan coba lagi.');
+            Alert::error('Error', $response->json('message'));
+            return redirect()->back()->with('error', 'Gagal membuat event. Silakan coba lagi.');
         }
     }
+
 
     /**
      * Display the specified resource.

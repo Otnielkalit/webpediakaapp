@@ -4,8 +4,8 @@ namespace App\Http\Controllers\public;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Request;
 
 class DashboardPublicController extends Controller
 {
@@ -23,60 +23,172 @@ class DashboardPublicController extends Controller
             'title' => 'Fitur Aplikasi Pedika App'
         ]);
     }
-    public function blog()
+
+    public function content()
     {
         try {
             $response = Http::get(env('API_URL') . 'api/publik-content');
             if ($response->successful()) {
-                $contents = $response->json()['Data'];
+                $contents = collect($response->json()['Data']);
             } else {
-                $contents = [];
+                $contents = collect([]);
+            }
+
+            // Fetch violence categories
+            $responseCategories = Http::get(env('API_URL') . 'api/publik/kategori-kekerasan');
+            if ($responseCategories->successful()) {
+                $violenceCategories = collect($responseCategories->json()['Data']);
+            } else {
+                $violenceCategories = collect([]);
             }
         } catch (\Exception $e) {
-            $contents = [];
+            $contents = collect([]);
+            $violenceCategories = collect([]);
         }
 
-        return view('public.pages.blog', [
+        // Manual Pagination
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 5;
+        $currentPageItems = $contents->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedContents = new LengthAwarePaginator($currentPageItems, $contents->count(), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath()
+        ]);
+
+        // Get recent posts (example, you may need to fetch from API)
+        $recentPosts = $contents->sortByDesc('created_at')->take(5);
+
+        return view('public.pages.content', [
             'title' => 'Blog Pedika App',
-            'contents' => $contents
+            'contents' => $paginatedContents,
+            'recent_posts' => $recentPosts,
+            'violence_categories' => $violenceCategories
         ]);
     }
 
-    
-    public function detailBlog($id)
+    public function searchByCategory($categoryId)
+{
+    try {
+        // Fetch contents by category
+        $responseContents = Http::get(env('API_URL') . 'api/publik-content?category_id=' . $categoryId);
+        if ($responseContents->successful()) {
+            $contents = collect($responseContents->json()['Data']);
+        } else {
+            $contents = collect([]);
+        }
+    } catch (\Exception $e) {
+        $contents = collect([]);
+    }
+
+    // Manual Pagination
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $perPage = 5;
+    $currentPageItems = $contents->slice(($currentPage - 1) * $perPage, $perPage)->values();
+    $paginatedContents = new LengthAwarePaginator($currentPageItems, $contents->count(), $perPage, $currentPage, [
+        'path' => LengthAwarePaginator::resolveCurrentPath()
+    ]);
+
+    // Get recent posts (example, you may need to fetch from API)
+    $recentPosts = $contents->sortByDesc('created_at')->take(5);
+
+    return view('public.pages.content', [
+        'title' => 'Blog Pedika App',
+        'contents' => $paginatedContents,
+        'recent_posts' => $recentPosts,
+        'noResults' => $contents->isEmpty() // Add a flag for no results
+    ]);
+}
+
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        try {
+            // Fetch violence categories
+            $responseCategories = Http::get(env('API_URL') . 'api/publik/kategori-kekerasan');
+            if ($responseCategories->successful()) {
+                $violenceCategories = collect($responseCategories->json()['Data']);
+            } else {
+                $violenceCategories = collect([]);
+            }
+
+            // Fetch contents by keyword
+            $responseContents = Http::get(env('API_URL') . 'api/publik-content?keyword=' . urlencode($keyword));
+            if ($responseContents->successful()) {
+                $contents = collect($responseContents->json()['Data']);
+            } else {
+                $contents = collect([]);
+            }
+        } catch (\Exception $e) {
+            $contents = collect([]);
+            $violenceCategories = collect([]);
+        }
+
+        // Manual Pagination
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 5;
+        $currentPageItems = $contents->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedContents = new LengthAwarePaginator($currentPageItems, $contents->count(), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath()
+        ]);
+
+        // Get recent posts (example, you may need to fetch from API)
+        $recentPosts = $contents->sortByDesc('created_at')->take(5);
+
+        return view('public.pages.content', [
+            'title' => 'Blog Pedika App',
+            'contents' => $paginatedContents,
+            'recent_posts' => $recentPosts,
+            'violence_categories' => $violenceCategories,
+            'keyword' => $keyword,
+            'noResults' => $contents->isEmpty() // Add a flag for no results
+        ]);
+    }
+
+
+
+
+
+
+
+
+    public function detailContent($id)
     {
         try {
-            $page = request()->input('page', 1);
-            $response = Http::get(env('API_URL') . 'api/detail-content/' . $id . '?page=' . $page);
+            $response = Http::get(env('API_URL') . 'api/detail-content/' . $id);
             if ($response->successful()) {
                 $data = $response->json();
-                if (isset($data['data']) && isset($data['total']) && isset($data['per_page']) && isset($data['current_page'])) {
-                    $contents = $data['data'];
-                    $total = $data['total'];
-                    $perPage = $data['per_page'];
-                    $currentPage = $data['current_page'];
-                    $paginatedContent = new LengthAwarePaginator(
-                        $contents,
-                        $total,
-                        $perPage,
-                        $currentPage,
-                        ['path' => Paginator::resolveCurrentPath()]
-                    );
-                } else {
-                    $paginatedContent = null;
-                }
+                $contentDetail = $data['Data'] ?? null;
             } else {
-                $paginatedContent = null;
+                $contentDetail = null;
             }
         } catch (\Exception $e) {
-            $paginatedContent = null;
+            $contentDetail = null;
         }
 
-        return view('public.pages.blog_detail', [
-            'title' => $paginatedContent ? 'Blog Detail' : 'Blog Detail',
-            'contents' => $paginatedContent
+        return view('public.pages.content_detail', [
+            'title' => $contentDetail && array_key_exists('judul', $contentDetail) ? $contentDetail['judul'] : 'Blog Detail',
+            'content' => $contentDetail
         ]);
     }
+
+    public function event()
+    {
+        return view('public.pages.event', [
+            'title' => 'Event DPMPDPPA'
+        ]);
+    }
+
+    public function eventDetail()
+    {
+        return view('public.pages.event_detail', [
+            'title' => 'Event Detail'
+        ]);
+    }
+
+
+
+
 
 
     public function contact()

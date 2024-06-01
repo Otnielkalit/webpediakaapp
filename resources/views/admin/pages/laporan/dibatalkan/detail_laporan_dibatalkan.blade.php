@@ -28,6 +28,8 @@
                         aria-selected="false">
                         <i class="tf-icons bx bx-user"></i>
                         Korban
+                        <span
+                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">{{ count($laporanDetailDibatalkan['korban']) }}</span>
                     </button>
                 </li>
                 <li class="nav-item">
@@ -36,7 +38,8 @@
                         aria-selected="false">
                         <i class="tf-icons bx bx-user"></i>
                         Pelaku
-                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
+                        <span
+                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">{{ count($laporanDetailDibatalkan['pelaku']) }}</span>
                     </button>
                 </li>
             </ul>
@@ -221,242 +224,294 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="navs-pills-justified-korban" role="tabpanel">
-                    <h5 class="card-header">Data Korban</h5>
-                    <div class="card-body">
-                        <div class="d-flex align-items-start align-items-sm-center gap-4">
-                            <img src="asset-admin/assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded"
-                                height="150" width="150" id="uploadedAvatar">
-                        </div>
-                    </div>
-                    <hr class="my-0">
-                    <div class="card-body">
-                        <form id="formAccountSettings" method="POST" onsubmit="return false">
-                            <input type="text" name="{{ $laporanDetailDibatalkan['no_registrasi'] }}" hidden>
-                            <div class="row">
-                                <div class="mb-3 col-md-6">
-                                    <label for="nik" class="form-label">NIK (Nomor Induk kependudukan)</label>
-                                    <input class="form-control" type="number" id="nik" name="nik" autofocus>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="nama_pelaku" class="form-label">Nama Pelaku</label>
-                                    <input class="form-control" type="text" name="nama_pelaku" id="nama_pelaku">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="usia_pelaku" class="form-label">Usia Pelaku</label>
-                                    <input class="form-control" type="text" id="usia_pelaku" name="usia_pelaku"
-                                        placeholder=" contoh 21">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                    <input type="text" class="form-control" id="jenis_kelamin" name="jenis_kelamin">
-                                </div>
 
-                                <div class="mb-3 col-md-6">
-                                    <label for="agama" class="form-label">Agama</label>
-                                    <input type="text" class="form-control" id="agama" name="agama"
-                                        placeholder="Contoh Krister">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label" for="agama">Nomor Telepon</label>
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text">ID (+62)</span>
-                                        <input type="text" id="no_telepon" name="no_telepon" class="form-control"
-                                            placeholder="0812 ">
+                    @forelse ($laporanDetailDibatalkan['korban'] as $korban)
+                        <div class="card-body">
+                            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                <img src="{{ $korban['dokumentasi_korban'] }}" alt="user-avatar" class="d-block rounded"
+                                    height="150" width="150" id="uploadedAvatar">
+                            </div>
+                        </div>
+                        <br>
+                        <hr class="my-0">
+                        <br>
+                        <div class="card-body">
+                            <form>
+                                <input type="text" name="{{ $korban['no_registrasi'] }}" hidden>
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="nik" class="form-label">NIK (Nomor Induk kependudukan)</label>
+                                        <input class="form-control" type="number" value="{{ $korban['nik_korban'] }}"
+                                            name="nik" disabled>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="nama_korban" class="form-label">Nama Korban</label>
+                                        <input class="form-control" type="text" value="{{ $korban['nama_korban'] }}"
+                                            name="nama_korban" id="nama_korban">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="usia_korban" class="form-label">Usia Korban</label>
+                                        <input class="form-control" type="text" value="{{ $korban['usia_korban'] }}"
+                                            id="usia_korban" name="usia_korban" placeholder="contoh 21">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $korban['jenis_kelamin'] }}" id="jenis_kelamin"
+                                            name="jenis_kelamin">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="agama" class="form-label">Agama</label>
+                                        <input type="text" class="form-control" value="{{ $korban['agama'] }}"
+                                            id="agama" name="agama" placeholder="Contoh Kristen">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label class="form-label" for="no_telepon">Nomor Telepon</label>
+                                        <div class="input-group input-group-merge">
+                                            <span class="input-group-text">ID (+62)</span>
+                                            <input type="text" id="no_telepon" name="no_telepon" class="form-control"
+                                                value="{{ $korban['no_telepon'] }}" placeholder="0812 ">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="pendidikan" class="form-label">Pendidikan</label>
+                                        <input class="form-control" type="text" value="{{ $korban['pendidikan'] }}"
+                                            id="pendidikan" name="pendidikan" placeholder="California">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label class="form-label" for="status_perkawinan">Status Perkawinan</label>
+                                        <select id="status_perkawinan" class="select2 form-select"
+                                            name="status_perkawinan">
+                                            <option value="">Select</option>
+                                            <option value="Belum Kawin"
+                                                {{ $korban['status_perkawinan'] == 'Belum Kawin' ? 'selected' : '' }}>Belum
+                                                Kawin</option>
+                                            <option value="Sudah Kawin"
+                                                {{ $korban['status_perkawinan'] == 'Sudah Kawin' ? 'selected' : '' }}>Sudah
+                                                Kawin</option>
+                                            <option value="Cerai"
+                                                {{ $korban['status_perkawinan'] == 'Cerai' ? 'selected' : '' }}>Cerai
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="kebangsaan" class="form-label">Kebangsaan</label>
+                                        <input type="text" class="form-control" value="{{ $korban['kebangsaan'] }}"
+                                            id="kebangsaan" name="kebangsaan" placeholder="Contoh Indonesia">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="hubungan_dengan_pelaku" class="form-label">Hubungan dengan
+                                            Pelaku</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $korban['hubungan_dengan_pelaku'] }}" id="hubungan_dengan_pelaku"
+                                            name="hubungan_dengan_pelaku" placeholder="Contoh Paman">
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="form-label" for="keterangan_lainnya">Keterangan lainnya</label>
+                                        <textarea id="keterangan_lainnya" name="keterangan_lainnya" class="form-control"
+                                            placeholder="adakah keterangan lain mengenai korban ini?">{{ $korban['keterangan_lainnya'] }}</textarea>
+                                    </div>
+                                    <h5 class="card-header text-center">Alamat Korban</h5>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="provinsi" class="form-label">Provinsi</label>
+                                        <input class="form-control" type="text"
+                                            value="{{ $korban['alamat_korban'] }}" name="provinsi" id="provinsi">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="kabupaten" class="form-label">Kabupaten</label>
+                                        <input class="form-control" type="text"
+                                            value="{{ $korban['alamat_detail'] }}" name="kabupaten" id="kabupaten">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="kecamatan" class="form-label">Kecamatan</label>
+                                        <input class="form-control" type="text"
+                                            value="{{ $korban['alamat_korban'] }}" name="kecamatan" id="kecamatan">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="desa" class="form-label">Desa/Kelurahan</label>
+                                        <input class="form-control" type="text"
+                                            value="{{ $korban['alamat_detail'] }}" name="desa" id="desa">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label class="form-label" for="alamat_detail">Alamat Detail</label>
+                                        <textarea id="alamat_detail" name="alamat_detail" class="form-control" placeholder="">{{ $korban['alamat_detail'] }}</textarea>
                                     </div>
                                 </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="pendidikan" class="form-label">Pendidikan</label>
-                                    <input class="form-control" type="text" id="pendidikan" name="pendidikan"
-                                        placeholder="California">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label" for="status_perkawinan">Status Perkawinan</label>
-                                    <select id="status_perkawinan" class="select2 form-select" name="status_perkawinan">
-                                        <option value="">Select</option>
-                                        <option value="Belum Kawin">Belum Kawin</option>
-                                        <option value="Sudah Kawin">Sudah Kawin</option>
-                                        <option value="Cerai">Cerai</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="kebangsaan" class="form-label">Kebangsaan</label>
-                                    <input type="text" class="form-control" id="kebangsaan" name="kebangsaan"
-                                        placeholder="Contoh Indonesia">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="hubungan_dengan_korban" class="form-label">Hubungan dengan Korban</label>
-                                    <input type="text" class="form-control" id="hubungan_dengan_korban"
-                                        name="hubungan_dengan_korban" placeholder="Contoh Paman">
-                                </div>
-                                <div class="mb-6">
-                                    <label class="form-label" for="basic-default-message">Keterangan lainnya</label>
-                                    <textarea id="basic-default-message" name="keterangan_lainnya" class="form-control"
-                                        placeholder="adakah keterangan lain mengenai pelaku ini?"></textarea>
-                                </div>
-                                <h5 class="card-header text-center">Alamat Pelaku</h5>
-                                <div class="mb-3 col-md-6">
-                                    <label for="provinsi" class="form-label">Provinsi</label>
-                                    <input class="form-control" type="text" name="provinsi" id="provinsi">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="kabupaten" class="form-label">Kabupaten</label>
-                                    <input class="form-control" type="text" name="kabupaten" id="kabupaten">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="kecamatan" class="form-label">Kecamatan</label>
-                                    <input class="form-control" type="text" name="kecamatan" id="kecamatan">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="desa" class="form-label">Desa/Kelurahan</label>
-                                    <input class="form-control" type="text" name="desa" id="desa">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label" for="basic-default-message">Alamat Detail</label>
-                                    <textarea id="basic-default-message" name="keterangan_lainnya" class="form-control" placeholder=""></textarea>
+                            </form>
+                        </div>
+                    @empty
+                        <div class="container-xxl container-p-y d-flex justify-content-center align-items-center">
+                            <div class="misc-wrapper">
+                                <h2 class="mb-2 mx-2 ">Pelapor Tidak menambahkan Data Korban </h2>
+                                <div class="mt-4">
+                                    <img src="asset-admin\assets\img\backgrounds/nodata.png" alt="girl-doing-yoga-light"
+                                        width="500" class="img-fluid" data-app-dark-img="illustrations/nodata.png"
+                                        data-app-light-img="illustrations/nodata.png" />
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    @endforelse
                 </div>
 
                 <div class="tab-pane fade" id="navs-pills-justified-pelaku" role="tabpanel">
                     <div class="col-md mb-4 mb-md-0">
                         <div class="accordion mt-3" id="accordionExample">
-                            <div class="card accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#accordionTwo" aria-expanded="false"
-                                        aria-controls="accordionTwo">
-                                        Data Pelaku 1
-                                    </button>
-                                </h2>
-                                <div id="accordionTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <h5 class="card-header">Data Pelaku</h5>
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                                <img src="asset-admin/assets/img/avatars/1.png" alt="user-avatar"
-                                                    class="d-block rounded" height="150" width="150"
-                                                    id="uploadedAvatar">
+                            @forelse ($laporanDetailDibatalkan['pelaku'] as $index => $pelaku)
+                                <div class="card accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ $index }}">
+                                        <button type="button" class="accordion-button collapsed"
+                                            data-bs-toggle="collapse" data-bs-target="#accordion{{ $index }}"
+                                            aria-expanded="false" aria-controls="accordion{{ $index }}">
+                                            Data Pelaku {{ $index + 1 }}
+                                        </button>
+                                    </h2>
+                                    <div id="accordion{{ $index }}" class="accordion-collapse collapse"
+                                        aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <h5 class="card-header">Data Pelaku</h5>
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                                    <img src="{{ $pelaku['dokumentasi_pelaku'] }}" alt="user-avatar"
+                                                        class="d-block rounded" height="150" width="150"
+                                                        id="uploadedAvatar">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <hr class="my-0">
-                                        <div class="card-body">
-                                            <form id="formAccountSettings" method="POST" onsubmit="return false">
-                                                <input type="text"
-                                                    name="{{ $laporanDetailDibatalkan['no_registrasi'] }}" hidden>
-                                                <div class="row">
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="nik" class="form-label">NIK (Nomor Induk
-                                                            kependudukan)</label>
-                                                        <input class="form-control" type="number" id="nik"
-                                                            name="nik" autofocus>
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="nama_pelaku" class="form-label">Nama Pelaku</label>
-                                                        <input class="form-control" type="text" name="nama_pelaku"
-                                                            id="nama_pelaku">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="usia_pelaku" class="form-label">Usia Pelaku</label>
-                                                        <input class="form-control" type="text" id="usia_pelaku"
-                                                            name="usia_pelaku" placeholder=" contoh 21">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="jenis_kelamin" class="form-label">Jenis
-                                                            Kelamin</label>
-                                                        <input type="text" class="form-control" id="jenis_kelamin"
-                                                            name="jenis_kelamin">
-                                                    </div>
-
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="agama" class="form-label">Agama</label>
-                                                        <input type="text" class="form-control" id="agama"
-                                                            name="agama" placeholder="Contoh Krister">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label class="form-label" for="agama">Nomor Telepon</label>
-                                                        <div class="input-group input-group-merge">
-                                                            <span class="input-group-text">ID (+62)</span>
-                                                            <input type="text" id="no_telepon" name="no_telepon"
-                                                                class="form-control" placeholder="0812 ">
+                                            <hr class="my-0">
+                                            <div class="card-body">
+                                                <form id="formAccountSettings" method="POST" onsubmit="return false">
+                                                    <input type="text"
+                                                        name="{{ $laporanDetailDibatalkan['no_registrasi'] }}" hidden>
+                                                    <div class="row">
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="nik" class="form-label">NIK (Nomor Induk
+                                                                kependudukan)</label>
+                                                            <input class="form-control" type="number" id="nik"
+                                                                name="nik" value="{{ $pelaku['nik_pelaku'] }}"
+                                                                disabled>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="nama_pelaku" class="form-label">Nama
+                                                                Pelaku</label>
+                                                            <input class="form-control" type="text"
+                                                                value="{{ $pelaku['nama_pelaku'] }}" disabled>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="usia_pelaku" class="form-label">Usia
+                                                                Pelaku</label>
+                                                            <input class="form-control" type="text"
+                                                                value="{{ $pelaku['usia_pelaku'] }}" disabled>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="jenis_kelamin" class="form-label">Jenis
+                                                                Kelamin</label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $pelaku['jenis_kelamin'] }}" disabled>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="agama" class="form-label">Agama</label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $pelaku['agama'] }}" disabled>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label class="form-label" for="agama">Nomor Telepon</label>
+                                                            <div class="input-group input-group-merge">
+                                                                <span class="input-group-text">ID (+62)</span>
+                                                                <input type="text" class="form-control"
+                                                                    value="{{ $pelaku['no_telepon'] }}" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="pendidikan" class="form-label">Pendidikan</label>
+                                                            <input class="form-control" type="text" name="pendidikan"
+                                                                value="{{ $pelaku['pendidikan'] }}" disabled>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label class="form-label" for="status_perkawinan">Status
+                                                                Perkawinan</label>
+                                                            <select id="status_perkawinan" class="select2 form-select">
+                                                                <option value="">Select</option>
+                                                                <option value="Belum Kawin"
+                                                                    {{ $pelaku['status_perkawinan'] == 'Belum Kawin' ? 'selected' : '' }}>
+                                                                    Belum Kawin</option>
+                                                                <option value="Sudah Kawin"
+                                                                    {{ $pelaku['status_perkawinan'] == 'Sudah Kawin' ? 'selected' : '' }}>
+                                                                    Sudah Kawin</option>
+                                                                <option value="Cerai"
+                                                                    {{ $pelaku['status_perkawinan'] == 'Cerai' ? 'selected' : '' }}>
+                                                                    Cerai</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="kebangsaan" class="form-label">Kebangsaan</label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $pelaku['kebangsaan'] }}" disabled>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="hubungan_dengan_korban"
+                                                                class="form-label">Hubungan dengan Korban</label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $pelaku['hubungan_dengan_korban'] }}" disabled>
+                                                        </div>
+                                                        <div class="mb-6">
+                                                            <label class="form-label"
+                                                                for="basic-default-message">Keterangan lainnya</label>
+                                                            <textarea id="basic-default-message" name="keterangan_lainnya" class="form-control" disabled>{{ $pelaku['keterangan_lainnya'] }}</textarea>
+                                                        </div>
+                                                        <h5 class="card-header text-center">Alamat Pelaku</h5>
+                                                        @php
+                                                            $alamatPelaku = explode(',', $pelaku['alamat_pelaku']);
+                                                        @endphp
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="provinsi" class="form-label">Provinsi</label>
+                                                            <input class="form-control" type="text" name="provinsi"
+                                                                id="provinsi" value="{{ $alamatPelaku[0] }}">
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="kabupaten" class="form-label">Kabupaten</label>
+                                                            <input class="form-control" type="text" name="kabupaten"
+                                                                id="kabupaten" value="{{ $alamatPelaku[1] }}">
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="kecamatan" class="form-label">Kecamatan</label>
+                                                            <input class="form-control" type="text" name="kecamatan"
+                                                                id="kecamatan" value="{{ $alamatPelaku[2] }}">
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="desa"
+                                                                class="form-label">Desa/Kelurahan</label>
+                                                            <input class="form-control" type="text" name="desa"
+                                                                id="desa" value="{{ $alamatPelaku[3] }}">
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label class="form-label" for="basic-default-message">Alamat
+                                                                Detail</label>
+                                                            <textarea id="basic-default-message" name="alamat_detail" class="form-control" placeholder="">{{ $pelaku['alamat_detail'] }}</textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="pendidikan" class="form-label">Pendidikan</label>
-                                                        <input class="form-control" type="text" id="pendidikan"
-                                                            name="pendidikan" placeholder="California">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label class="form-label" for="status_perkawinan">Status
-                                                            Perkawinan</label>
-                                                        <select id="status_perkawinan" class="select2 form-select"
-                                                            name="status_perkawinan">
-                                                            <option value="">Select</option>
-                                                            <option value="Belum Kawin">Belum Kawin</option>
-                                                            <option value="Sudah Kawin">Sudah Kawin</option>
-                                                            <option value="Cerai">Cerai</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="kebangsaan" class="form-label">Kebangsaan</label>
-                                                        <input type="text" class="form-control" id="kebangsaan"
-                                                            name="kebangsaan" placeholder="Contoh Indonesia">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="hubungan_dengan_korban" class="form-label">Hubungan
-                                                            dengan
-                                                            Korban</label>
-                                                        <input type="text" class="form-control"
-                                                            id="hubungan_dengan_korban" name="hubungan_dengan_korban"
-                                                            placeholder="Contoh Paman">
-                                                    </div>
-                                                    <div class="mb-6">
-                                                        <label class="form-label" for="basic-default-message">Keterangan
-                                                            lainnya</label>
-                                                        <textarea id="basic-default-message" name="keterangan_lainnya" class="form-control"
-                                                            placeholder="adakah keterangan lain mengenai pelaku ini?"></textarea>
-                                                    </div>
-                                                    <h5 class="card-header text-center">Alamat Pelaku</h5>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="provinsi" class="form-label">Provinsi</label>
-                                                        <input class="form-control" type="text" name="provinsi"
-                                                            id="provinsi">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="kabupaten" class="form-label">Kabupaten</label>
-                                                        <input class="form-control" type="text" name="kabupaten"
-                                                            id="kabupaten">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="kecamatan" class="form-label">Kecamatan</label>
-                                                        <input class="form-control" type="text" name="kecamatan"
-                                                            id="kecamatan">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label for="desa" class="form-label">Desa/Kelurahan</label>
-                                                        <input class="form-control" type="text" name="desa"
-                                                            id="desa">
-                                                    </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label class="form-label" for="basic-default-message">Alamat
-                                                            Detail</label>
-                                                        <textarea id="basic-default-message" name="keterangan_lainnya" class="form-control" placeholder=""></textarea>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @empty
+                                <div class="container-xxl container-p-y d-flex justify-content-center align-items-center">
+                                    <div class="misc-wrapper">
+                                        <h2 class="mb-2 mx-2 ">Pelapor Tidak Menambahkan Pelaku</h2>
+
+                                        <div class="mt-4">
+                                            <img src="asset-admin\assets\img\backgrounds/nodata.png"
+                                                alt="girl-doing-yoga-light" width="500" class="img-fluid"
+                                                data-app-dark-img="illustrations/nodata.png"
+                                                data-app-light-img="illustrations/nodata.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforelse
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 

@@ -25,31 +25,21 @@
                             <nav>
                                 <ul id="navigation">
                                     <li class="{{ \Route::is('welcome') ? 'active' : '' }}">
-                                        <a href="{{ route('welcome') }}">Home</a>
+                                        <a href="{{ route('welcome') }}">Beranda</a>
                                     </li>
                                     <li>
                                     <li class="{{ \Route::is('feature') ? 'active' : '' }}">
-                                        <a href="{{ route('feature') }}">Feature</a>
+                                        <a href="{{ route('feature') }}">Fitur</a>
                                     </li>
-                                    <li class="{{ \Route::is('blog') ? 'active' : '' }}">
-                                        <a href="{{ route('blog') }}">Content</a>
+                                    <li class="{{ \Route::is('content') || \Route::is('content.detail') ? 'active' : '' }}">
+                                        <a href="{{ route('content') }}">Konten</a>
                                     </li>
-                                    <li>
-                                        <a href="#">Pages</a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="blog.html">Blog</a>
-                                            </li>
-                                            <li>
-                                                <a href="single-blog.html">Blog Details</a>
-                                            </li>
-                                            <li>
-                                                <a href="elements.html">Element</a>
-                                            </li>
-                                        </ul>
+                                    <li class="{{ \Route::is('event') || \Route::is('event.detail') ? 'active' : '' }}">
+                                        <a href="{{ route('event') }}">Event</a>
                                     </li>
+
                                     <li class="{{ \Route::is('contact') ? 'active' : '' }}">
-                                        <a href="{{ route('contact') }}">Contact</a>
+                                        <a href="{{ route('contact') }}">Tentang</a>
                                     </li>
                                     <li>
                                         |

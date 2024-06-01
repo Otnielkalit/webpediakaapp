@@ -34,7 +34,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">No report available.</td>
+                            <td colspan="5" class="text-center">
+                                <h2>Belum ada Laporan yang selesai</h2>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
