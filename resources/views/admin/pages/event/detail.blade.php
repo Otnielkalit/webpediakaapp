@@ -11,12 +11,16 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h3 class="card-title">{{ $eventDetail['nama_event'] }}</h3>
+                            <h3 class="card-title">{{ $eventDetail['nama_event'] }} |
+                                Waktu
+                                Pelaksanaan{{ \Carbon\Carbon::parse($eventDetail['tanggal_pelaksanaan'])->format('d M Y') }}
+                            </h3>
                             <p class="card-text">
                                 {!! $eventDetail['deskripsi_event'] !!}
                             </p>
                             <p class="card-text">
-                                <small>Waktu Pelaksanaan{{ \Carbon\Carbon::parse($eventDetail['tanggal_pelaksanaan'])->format('d M Y') }}
+                                <small>Waktu
+                                    Pelaksanaan{{ \Carbon\Carbon::parse($eventDetail['tanggal_pelaksanaan'])->format('d M Y') }}
                                 </small>
                             </p>
                         </div>
