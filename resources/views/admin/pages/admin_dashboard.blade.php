@@ -169,7 +169,9 @@
                                                     <h6 class="mb-0 text-nowrap">
                                                         {{ \Carbon\Carbon::parse($event['tanggal_pelaksanaan'])->format('d M Y') }}
                                                     </h6>
-                                                    <small>Waktu</small>
+                                                    <p>Jam
+                                                        {{ \Carbon\Carbon::parse($event['tanggal_pelaksanaan'])->format('H:i') }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
