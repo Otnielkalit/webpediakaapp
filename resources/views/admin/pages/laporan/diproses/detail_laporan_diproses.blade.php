@@ -385,7 +385,6 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="navs-pills-justified-korban" role="tabpanel">
-
                     @forelse ($laporanDetailDiproses['korban'] as $korban)
                         <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -467,36 +466,17 @@
                                             value="{{ $korban['hubungan_dengan_pelaku'] }}" id="hubungan_dengan_pelaku"
                                             name="hubungan_dengan_pelaku" placeholder="Contoh Paman">
                                     </div>
-                                    <div class="mb-6">
-                                        <label class="form-label" for="keterangan_lainnya">Keterangan lainnya</label>
-                                        <textarea id="keterangan_lainnya" name="keterangan_lainnya" class="form-control"
-                                            placeholder="adakah keterangan lain mengenai korban ini?">{{ $korban['keterangan_lainnya'] }}</textarea>
-                                    </div>
-                                    <h5 class="card-header text-center">Alamat Korban</h5>
                                     <div class="mb-3 col-md-6">
-                                        <label for="provinsi" class="form-label">Provinsi</label>
-                                        <input class="form-control" type="text"
-                                            value="{{ $korban['alamat_korban'] }}" name="provinsi" id="provinsi">
-                                    </div>
-                                    <div class="mb-3 col-md-6">
-                                        <label for="kabupaten" class="form-label">Kabupaten</label>
-                                        <input class="form-control" type="text"
-                                            value="{{ $korban['alamat_detail'] }}" name="kabupaten" id="kabupaten">
-                                    </div>
-                                    <div class="mb-3 col-md-6">
-                                        <label for="kecamatan" class="form-label">Kecamatan</label>
-                                        <input class="form-control" type="text"
-                                            value="{{ $korban['alamat_korban'] }}" name="kecamatan" id="kecamatan">
-                                    </div>
-                                    <div class="mb-3 col-md-6">
-                                        <label for="desa" class="form-label">Desa/Kelurahan</label>
-                                        <input class="form-control" type="text"
-                                            value="{{ $korban['alamat_detail'] }}" name="desa" id="desa">
+                                        <label for="hubungan_dengan_pelaku" class="form-label">Alamat Korban</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $korban['alamat_korban'] }}" id="hubungan_dengan_pelaku"
+                                            name="hubungan_dengan_pelaku" placeholder="Contoh Paman">
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <label class="form-label" for="alamat_detail">Alamat Detail</label>
                                         <textarea id="alamat_detail" name="alamat_detail" class="form-control" placeholder="">{{ $korban['alamat_detail'] }}</textarea>
                                     </div>
+
                                 </div>
                             </form>
                         </div>
@@ -529,28 +509,15 @@
                                     <form action="{{ route('korban.store') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
+
                                         <div class="modal-body">
-                                            <div class="d-flex align-items-start align-items-sm-center gap-4 mb-3">
-                                                <img src="{{ asset('asset-admin/assets/img/avatars/upload.png') }}"
-                                                    alt="user-avatar" class="d-block rounded" height="250"
-                                                    width="250" id="img">
-                                                <div class="button-wrapper">
-                                                    <label for="upload" class="btn btn-primary me-2 mb-4"
-                                                        tabindex="0">
-                                                        <span class="d-none d-sm-block">Upload foto Korban</span>
-                                                        <i class="bx bx-upload d-block d-sm-none"></i>
-                                                    </label>
-                                                    <input type="file" id="upload" name="dokumentasi_korban"
-                                                        class="account-file-input" accept="image/png, image/jpeg" required
-                                                        style="opacity: 0; position: absolute; z-index: -1;">
-                                                    <button type="button"
-                                                        class="btn btn-outline-secondary account-image-reset mb-4"
-                                                        id="reset">
-                                                        <i class="bx bx-reset d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Reset</span>
-                                                    </button>
-                                                </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="dokumentasi_korban" class="form-label">NIK (Nomor Induk
+                                                    Kependudukan)</label>
+                                                <input class="form-control" type="file" id="dokumentasi_korban"
+                                                    name="dokumentasi_korban" autofocus required>
                                             </div>
+
                                             <hr class="my-3">
                                             <input type="hidden" name="no_registrasi"
                                                 value="{{ $laporanDetailDiproses['no_registrasi'] }}">
@@ -946,8 +913,8 @@
                                                         </div>
                                                         <div class="mb-3 col-md-6">
                                                             <label for="alamat_pelaku" class="form-label">Alamat</label>
-                                                            <input type="text" class="form-control"
-                                                                id="alamat_pelaku" name="alamat_pelaku"
+                                                            <input type="text" class="form-control" id="alamat_pelaku"
+                                                                name="alamat_pelaku"
                                                                 placeholder="Contoh : Parparean I, Porsea, Toba, Sumatera Utara"
                                                                 required>
                                                         </div>
@@ -958,8 +925,7 @@
                                                                 placeholder="Apakah anda tau alamat detail pelaku?"></textarea>
                                                         </div>
                                                         <div class="mb-3 col-md-6">
-                                                            <label class="form-label"
-                                                                for="keterangan_lainnya">Keterangan
+                                                            <label class="form-label" for="keterangan_lainnya">Keterangan
                                                                 Lainnya</label>
                                                             <textarea id="keterangan_lainnya" name="keterangan_lainnya" class="form-control"
                                                                 placeholder="Adakah keterangan lain mengenai pelaku ini?"></textarea>
