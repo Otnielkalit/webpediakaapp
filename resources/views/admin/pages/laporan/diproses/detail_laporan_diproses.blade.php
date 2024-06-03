@@ -504,11 +504,157 @@
                         <div class="container-xxl container-p-y d-flex justify-content-center align-items-center">
                             <div class="misc-wrapper">
                                 <h2 class="mb-2 mx-2 ">Data Korban Belum Ditambahkan</h2>
-                                <p class="mb-4 mx-2">Pelapor Belum menambahkan data korban pada kasus ini</p>
+                                <p class="mb-4 mx-2">Anda juga bisa menambahkan Data Korban jika Sudah diberitahu oleh
+                                    pelapor</p>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#tambahKorban">
+                                    Tambah Data Korban
+                                </button>
                                 <div class="mt-4">
                                     <img src="asset-admin\assets\img\backgrounds/nodata.png" alt="girl-doing-yoga-light"
                                         width="500" class="img-fluid" data-app-dark-img="illustrations/nodata.png"
                                         data-app-light-img="illustrations/nodata.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tambah Data Korban -->
+                        <div class="modal fade" id="tambahKorban" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-xl" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Tambah Data Korban</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ route('korban.store') }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="d-flex align-items-start align-items-sm-center gap-4 mb-3">
+                                                <img src="{{ asset('asset-admin/assets/img/avatars/upload.png') }}"
+                                                    alt="user-avatar" class="d-block rounded" height="250"
+                                                    width="250" id="img">
+                                                <div class="button-wrapper">
+                                                    <label for="upload" class="btn btn-primary me-2 mb-4"
+                                                        tabindex="0">
+                                                        <span class="d-none d-sm-block">Upload foto Korban</span>
+                                                        <i class="bx bx-upload d-block d-sm-none"></i>
+                                                    </label>
+                                                    <input type="file" id="upload" name="dokumentasi_korban"
+                                                        class="account-file-input" accept="image/png, image/jpeg" required
+                                                        style="opacity: 0; position: absolute; z-index: -1;">
+                                                    <button type="button"
+                                                        class="btn btn-outline-secondary account-image-reset mb-4"
+                                                        id="reset">
+                                                        <i class="bx bx-reset d-block d-sm-none"></i>
+                                                        <span class="d-none d-sm-block">Reset</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <hr class="my-3">
+                                            <input type="hidden" name="no_registrasi"
+                                                value="{{ $laporanDetailDiproses['no_registrasi'] }}">
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="nik_korban" class="form-label">NIK (Nomor Induk
+                                                        Kependudukan)</label>
+                                                    <input class="form-control" type="number" id="nik_korban"
+                                                        name="nik_korban" autofocus required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="nama_korban" class="form-label">Nama Korban</label>
+                                                    <input class="form-control" type="text" name="nama_korban"
+                                                        id="nama_korban" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="usia_korban" class="form-label">Usia Korban</label>
+                                                    <input class="form-control" type="number" id="usia_korban"
+                                                        name="usia_korban" placeholder="Contoh: 21" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                                    <select class="form-control" id="jenis_kelamin" name="jenis_kelamin"
+                                                        required>
+                                                        <option value="">Pilih</option>
+                                                        <option value="Laki-laki">Laki-laki</option>
+                                                        <option value="Perempuan">Perempuan</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="agama" class="form-label">Agama</label>
+                                                    <input type="text" class="form-control" id="agama"
+                                                        name="agama" placeholder="Contoh: Kristen" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label" for="no_telepon">Nomor Telepon</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">ID (+62)</span>
+                                                        <input type="text" id="no_telepon" name="no_telepon"
+                                                            class="form-control" placeholder="0812..." required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="pendidikan" class="form-label">Pendidikan</label>
+                                                    <input class="form-control" type="text" id="pendidikan"
+                                                        name="pendidikan" placeholder="Contoh: S1" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label" for="pekerjaan">Pekerjaan</label>
+                                                    <input class="form-control" type="text" id="pekerjaan"
+                                                        name="pekerjaan" placeholder="Contoh: Guru" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label" for="status_perkawinan">Status
+                                                        Perkawinan</label>
+                                                    <select id="status_perkawinan" class="form-control"
+                                                        name="status_perkawinan" required>
+                                                        <option value="">Pilih</option>
+                                                        <option value="Belum Kawin">Belum Kawin</option>
+                                                        <option value="Sudah Kawin">Sudah Kawin</option>
+                                                        <option value="Cerai">Cerai</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="kebangsaan" class="form-label">Kebangsaan</label>
+                                                    <input type="text" class="form-control" id="kebangsaan"
+                                                        name="kebangsaan" placeholder="Contoh: Indonesia" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="hubungan_dengan_pelaku" class="form-label">Hubungan dengan
+                                                        Pelaku</label>
+                                                    <input type="text" class="form-control"
+                                                        id="hubungan_dengan_pelaku" name="hubungan_dengan_pelaku"
+                                                        placeholder="Contoh: Paman" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="alamat_korban" class="form-label">Alamat</label>
+                                                    <input type="text" class="form-control" id="alamat_korban"
+                                                        name="alamat_korban"
+                                                        placeholder="Contoh : Parparean I, Porsea, Toba, Sumatera Utara"
+                                                        required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="alamat_detail" class="form-label">Alamat Detail</label>
+                                                    <textarea id="alamat_detail" name="alamat_detail" class="form-control"
+                                                        placeholder="Apakah anda tau alamat detail korban?"></textarea>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label" for="keterangan_lainnya">Keterangan
+                                                        Lainnya</label>
+                                                    <textarea id="keterangan_lainnya" name="keterangan_lainnya" class="form-control"
+                                                        placeholder="Adakah keterangan lain mengenai korban ini?"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                        </div>
+                                    </form>
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -540,8 +686,7 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <h5 class="card-header">Data Pelaku</h5>
                                                 <div>
-                                                    <button type="button" class="btn btn-warning "
-                                                        onclick="editData({{ $index }})">Edit</button>
+
                                                     <form id="delete-form-{{ $pelaku['id'] }}"
                                                         action="{{ route('pelaku.destroy', ['id' => $pelaku['id']]) }}"
                                                         method="POST" class="d-inline">
@@ -801,8 +946,8 @@
                                                         </div>
                                                         <div class="mb-3 col-md-6">
                                                             <label for="alamat_pelaku" class="form-label">Alamat</label>
-                                                            <input type="text" class="form-control" id="alamat_pelaku"
-                                                                name="alamat_pelaku"
+                                                            <input type="text" class="form-control"
+                                                                id="alamat_pelaku" name="alamat_pelaku"
                                                                 placeholder="Contoh : Parparean I, Porsea, Toba, Sumatera Utara"
                                                                 required>
                                                         </div>
@@ -813,7 +958,8 @@
                                                                 placeholder="Apakah anda tau alamat detail pelaku?"></textarea>
                                                         </div>
                                                         <div class="mb-3 col-md-6">
-                                                            <label class="form-label" for="keterangan_lainnya">Keterangan
+                                                            <label class="form-label"
+                                                                for="keterangan_lainnya">Keterangan
                                                                 Lainnya</label>
                                                             <textarea id="keterangan_lainnya" name="keterangan_lainnya" class="form-control"
                                                                 placeholder="Adakah keterangan lain mengenai pelaku ini?"></textarea>
@@ -911,5 +1057,39 @@
                 });
             });
         });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let img = document.getElementById('img');
+        let input = document.getElementById('upload');
+        let resetBtn = document.getElementById('reset');
+
+        // Check if the elements exist
+        if (img && input && resetBtn) {
+            input.addEventListener('change', function(e) {
+                if (input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        if (img) {
+                            img.src = event.target.result;
+                        }
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            });
+
+            document.querySelector('label[for="upload"]').addEventListener('click', function(e) {
+                input.click();
+            });
+
+            resetBtn.addEventListener('click', function(e) {
+                img.src = '{{ asset('asset-admin/assets/img/avatars/upload.png') }}';
+                input.value = '';
+            });
+        } else {
+            console.error('Elements not found: img, input, resetBtn');
+        }
     });
 </script>

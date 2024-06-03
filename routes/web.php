@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminContentController;
 use App\Http\Controllers\admin\AdminEventController;
 use App\Http\Controllers\admin\AdminJanjiTemuController;
 use App\Http\Controllers\admin\AdminKategoryKekerasan;
+use App\Http\Controllers\admin\AdminKorbanController;
 use App\Http\Controllers\admin\AdminLaporanController;
 use App\Http\Controllers\admin\AdminPelakuController;
 use App\Http\Controllers\admin\DashboardAdminController;
@@ -63,6 +64,9 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::put('/admin/proses-laporan/{no_registrasi}', [AdminLaporanController::class, 'proses'])->name('laporan.proses');
     Route::get('/admin/laporan-diproses', [AdminLaporanController::class, 'diproses'])->name('laporan.diproses');
     Route::get('/admin/detail-laporan-diproses/{no_registrasi}', [AdminLaporanController::class, 'detailDiProses'])->name('laporan.detail-diproses');
+
+    Route::post('/admin/create-korban', [AdminKorbanController::class, 'store'])->name('korban.store');
+    Route::delete('/admin/delete-korban-kekerasan/{id}', [AdminKorbanController::class, 'destroy'])->name('korban.destroy');
 
     Route::post('/admin/create-pelaku-kekerasan', [AdminPelakuController::class, 'store'])->name('pelaku.store');
     Route::put('/admin/edit-pelaku-kekerasan', [AdminPelakuController::class, 'update'])->name('pelaku.update');

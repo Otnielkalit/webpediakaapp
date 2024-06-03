@@ -49,9 +49,9 @@
                         <h3 class="card-header">Laporan Nomor Regsitrasi {{ $laporanDetailSelesai['no_registrasi'] }}
                             &nbsp;<span class="badge bg-label-primary me-1">{{ $laporanDetailSelesai['status'] }}</span>
                         </h3>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTracking">
+                        {{-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTracking">
                             Print
-                        </button>
+                        </button> --}}
                     </div>
                     <br>
                     <hr class="my-0">
