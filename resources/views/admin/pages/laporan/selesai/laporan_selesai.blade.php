@@ -18,7 +18,7 @@
                             <td>
                                 <i class="fab fa-angular fa-lg text-danger me-3"></i>
                                 <strong><a
-                                        href="{{ route('laporan.detail', ['no_registrasi' => $laporan['no_registrasi']]) }}">{{ $laporan['no_registrasi'] }}</a></strong>
+                                        href="{{ route('laporan.detail-selesai', ['no_registrasi' => $laporan['no_registrasi']]) }}">{{ $laporan['no_registrasi'] }}</a></strong>
                             </td>
                             <td>
                                 {{ \Carbon\Carbon::parse($laporan['tanggal_pelaporan'])->format('d M Y') }}

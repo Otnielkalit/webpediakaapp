@@ -42,6 +42,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-lg-2 col-md-4 col-sm-7">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">

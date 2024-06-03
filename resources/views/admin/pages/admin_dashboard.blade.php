@@ -1,4 +1,5 @@
 @extends('admin.layouts.admin_master')
+
 @section('content')
     <div class="row">
         <div class="col-lg-12 mb-4 order-0">
@@ -43,16 +44,15 @@
                                         Edit contact
                                     </button>
                                 </div>
-                                {{-- <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
+                                <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel1">Edit Kontak Darurat</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
-                                            <form id="editContactForm"
-                                                action="{{ route('contact.update', ['id' => $emergencyContact['ID']]) }}"
+                                            <form id="editContactForm" action="{{ route('contact.update') }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('PUT')
@@ -76,8 +76,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                </div> --}}
-
+                                </div>
                             </div>
                             <span class="fw-semibold d-block mb-1">Kontak Darurat</span>
 
@@ -92,8 +91,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="row">
         <!-- Basic -->
         <div class="col-12 mb-4">
@@ -203,3 +200,30 @@
         </div>
     </div>
 @endsection
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let saveChangesBtn = document.getElementById('saveChangesBtn');
+        let form = document.getElementById('editContactForm');
+
+        saveChangesBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Yakin ingin menyimpan perubahan?',
+                text: "Pastikan kontak darurat yang diubah sudah benar!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, save it!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>

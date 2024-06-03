@@ -94,7 +94,7 @@
                         <div data-i18n="Analytics">Laporan Dibatalkan</div>
                     </a>
                 </li>
-                <li class="menu-item {{ \Route::is('laporan.selesai') ? 'active' : '' }}">
+                <li class="menu-item {{ \Route::is('laporan.selesai') || \Route::is('laporan.detail-selesai')  ? 'active' : '' }}">
                     <a href="{{ route('laporan.selesai') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
                         <div data-i18n="Analytics">Laporan Selesai</div>
@@ -186,7 +186,7 @@
                 <div class="text-truncate" data-i18n="Dashboards">Event DPMDPPA</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ \Route::is('event.index') ? 'active' : '' }}">
+                <li class="menu-item {{ \Route::is('event.index') || \Route::is('event.edit') ? 'active' : '' }}">
                     <a href="{{ route('event.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-detail"></i>
                         <div data-i18n="Analytics">List Event</div>

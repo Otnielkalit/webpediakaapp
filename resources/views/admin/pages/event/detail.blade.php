@@ -7,16 +7,16 @@
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-12">
-                        <img class="card-img card-img-left" src="{{ $contentDetail['image_content'] }}" alt="Card image">
+                        <img class="card-img card-img-left" src="{{ $eventDetail['thumbnail_event'] }}" alt="Card image">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h3 class="card-title">{{ $contentDetail['judul'] }}</h3>
+                            <h3 class="card-title">{{ $eventDetail['nama_event'] }}</h3>
                             <p class="card-text">
-                                {!! $contentDetail['isi_content'] !!}
+                                {!! $eventDetail['deskripsi_event'] !!}
                             </p>
                             <p class="card-text">
-                                <small>Updatedan terakhir {{ \Carbon\Carbon::parse($contentDetail['updated_at'])->format('d M Y') }}
+                                <small>Waktu Pelaksanaan{{ \Carbon\Carbon::parse($eventDetail['tanggal_pelaksanaan'])->format('d M Y') }}
                                 </small>
                             </p>
                         </div>

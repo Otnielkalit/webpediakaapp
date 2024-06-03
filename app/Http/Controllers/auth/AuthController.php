@@ -37,7 +37,7 @@ class AuthController extends Controller
                 return redirect()->back()->withInput()->withErrors(['message' => 'Maaf, silahkan login dengan Aplikasi Mobile']);
             }
             $token = $responseData['token'];
-            $minutes = 60;
+            $minutes = 600;
             $cookie = cookie('user_data', json_encode($user), $minutes, null, null, true, true);
             $tokenCookie = cookie('user_token', $token, $minutes, null, null, true, true);
             Alert::success('Success', $responseData['message']);

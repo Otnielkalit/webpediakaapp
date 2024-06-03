@@ -137,19 +137,42 @@ class AdminLaporanController extends Controller
         ]);
     }
 
+    // public function detailDiProses(Request $request, string $no_registrasi)
+    // {
+    //     $headers = ApiHelper::getAuthorizationHeader($request);
+    //     $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-laporan/' . $no_registrasi);
+    //     if ($response->successful()) {
+    //         $laporanDetailDiproses = $response->json()['Data'];
+    //         return view('admin.pages.laporan.diproses.detail_laporan_diproses', [
+    //             'title' => 'Detail Laporan Diproses',
+    //             'laporanDetailDiproses' => $laporanDetailDiproses,
+    //         ]);
+    //     }
+    //     return redirect()->back()->with('error', 'Failed to fetch report detail');
+    // }
     public function detailDiProses(Request $request, string $no_registrasi)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
         $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-laporan/' . $no_registrasi);
+
         if ($response->successful()) {
             $laporanDetailDiproses = $response->json()['Data'];
+
+            // Sort tracking_laporan by created_at in descending order
+            usort($laporanDetailDiproses['tracking_laporan'], function ($a, $b) {
+                return strtotime($b['created_at']) - strtotime($a['created_at']);
+            });
+
             return view('admin.pages.laporan.diproses.detail_laporan_diproses', [
                 'title' => 'Detail Laporan Diproses',
                 'laporanDetailDiproses' => $laporanDetailDiproses,
             ]);
         }
+
         return redirect()->back()->with('error', 'Failed to fetch report detail');
     }
+
+
 
 
 
@@ -187,6 +210,19 @@ class AdminLaporanController extends Controller
         return redirect()->back()->with('error', 'Failed to fetch report detail');
     }
 
+    public function selesaikanLaporan(Request $request, string $no_registrasi)
+    {
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $response = Http::withHeaders($headers)->put(env('API_URL') . 'api/admin/laporan-selesai/' . $no_registrasi);
+
+        if ($response->successful()) {
+            Alert::success('Success', $response->json('message'));
+            return redirect()->route('laporan.detail-selesai', ['no_registrasi' => $no_registrasi]);
+        }
+        Alert::error('Error', $response->json('message'));
+        return redirect()->back()->with('error', 'Gagal menyetujui janji temu. Silakan coba lagi.');
+    }
+
     public function selesai(Request $request)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
@@ -207,17 +243,40 @@ class AdminLaporanController extends Controller
         ]);
     }
 
+    //     public function detailSelesai(Request $request, string $no_registrasi)
+    //     {
+    //         $headers = ApiHelper::getAuthorizationHeader($request);
+    //         $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-laporan/' . $no_registrasi);
+    //         if ($response->successful()) {
+    //             $laporanDetailSelesai = $response->json()['Data'];
+    //             return view('admin.pages.laporan.selesai.detail_laporan_selesai', [
+    //                 'title' => 'Detail Laporan Yang sudah Selesai',
+    //                 'laporanDetailSelesai' => $laporanDetailSelesai,
+    //             ]);
+    //         }
+    //         return redirect()->back()->with('error', 'Failed to fetch report detail');
+    //     }
+    // }
+
     public function detailSelesai(Request $request, string $no_registrasi)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
         $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/admin/detail-laporan/' . $no_registrasi);
+
         if ($response->successful()) {
             $laporanDetailSelesai = $response->json()['Data'];
-            return view('admin.pages.laporan.dibatalkan.detail_laporan_dibatalkan', [
-                'title' => 'Detail Laporan Yang sudah Selesai',
+
+            // Sort tracking_laporan by created_at in descending order
+            usort($laporanDetailSelesai['tracking_laporan'], function ($a, $b) {
+                return strtotime($b['created_at']) - strtotime($a['created_at']);
+            });
+
+            return view('admin.pages.laporan.selesai.detail_laporan_selesai', [
+                'title' => 'Detail Laporan Diproses',
                 'laporanDetailSelesai' => $laporanDetailSelesai,
             ]);
         }
+
         return redirect()->back()->with('error', 'Failed to fetch report detail');
     }
 }

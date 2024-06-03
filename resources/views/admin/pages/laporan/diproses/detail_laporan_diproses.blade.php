@@ -28,6 +28,8 @@
                         aria-selected="false">
                         <i class="tf-icons bx bx-user"></i>
                         Korban
+                        <span
+                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">{{ count($laporanDetailDiproses['korban']) }}</span>
                     </button>
                 </li>
                 <li class="nav-item">
@@ -49,9 +51,16 @@
                         <h3 class="card-header">Tracking dan Isi Laporan {{ $laporanDetailDiproses['no_registrasi'] }}
                             &nbsp;<span class="badge bg-label-primary me-1">{{ $laporanDetailDiproses['status'] }}</span>
                         </h3>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTracking">
-                            Kasus Selesai
-                        </button>
+                        <form
+                            action="{{ route('laporan.selesaikan', ['no_registrasi' => $laporanDetailDiproses['no_registrasi']]) }}"
+                            method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success">
+                                Kasus Selesai
+                            </button>
+                        </form>
+
 
                     </div>
                     <br>
@@ -154,7 +163,6 @@
                         </div>
                         <div class="col-xl-6">
                             <div class="card">
-
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h5 class="mb-0">Tracking Laporan</h5>
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
@@ -167,43 +175,49 @@
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="addTrackingTitle">Buat Tracking laporan</h5>
+                                                <h5 class="modal-title" id="addTrackingTitle">Buat Tracking Laporan</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col mb-12">
-                                                        <input type="text" name="no_registrasi"
-                                                            value="{{ $laporanDetailDiproses['no_registrasi'] }}" hidden>
-                                                        <label for="nameWithTitle" class="form-label">Keterangan</label>
-                                                        <input type="text" id="nameWithTitle" class="form-control"
-                                                            placeholder="Keterangan">
+                                            <form method="POST" action="{{ route('tracking.store') }}"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <input type="text" name="no_registrasi"
+                                                        value="{{ $laporanDetailDiproses['no_registrasi'] }}" hidden>
+                                                    <div class="mb-3">
+                                                        <label for="keterangan" class="form-label">Keterangan</label>
+                                                        <input type="text" name="keterangan" id="keterangan"
+                                                            class="form-control" placeholder="Keterangan" required>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="card">
-                                                            <h5 class="card-header">Multiple</h5>
-                                                            <div class="card-body">
-                                                                <form action="/upload" class="dropzone needsclick"
-                                                                    id="dropzone-multi">
-                                                                    <div class="dz-message needsclick">
-                                                                        Drag and Drop files here or click to upload
-                                                                    </div>
-                                                                    <div class="fallback">
-                                                                        <input name="file" type="file" />
-                                                                    </div>
-                                                                </form>
-                                                            </div>
+                                                    <div class="d-flex align-items-start align-items-sm-center gap-4 mb-3">
+                                                        <img src="{{ asset('asset-admin/assets/img/avatars/upload.png') }}"
+                                                            alt="user-avatar" class="d-block rounded" height="250"
+                                                            width="250" id="img">
+                                                        <div class="button-wrapper">
+                                                            <label for="upload" class="btn btn-primary me-2 mb-4"
+                                                                tabindex="0">
+                                                                <span class="d-none d-sm-block">Upload Foto Pelaku</span>
+                                                                <i class="bx bx-upload d-block d-sm-none"></i>
+                                                                <input type="file" id="upload" name="document"
+                                                                    class="account-file-input" hidden
+                                                                    accept="image/png, image/jpeg" required>
+                                                            </label>
+                                                            <button type="button"
+                                                                class="btn btn-outline-secondary account-image-reset mb-4"
+                                                                id="reset">
+                                                                <i class="bx bx-reset d-block d-sm-none"></i>
+                                                                <span class="d-none d-sm-block">Reset</span>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-success">Save changes</button>
-                                            </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-success">Save changes</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -220,8 +234,7 @@
                                                         <div>
                                                             <div class="timeline-header flex-wrap mb-2 mt-3 mt-sm-0">
                                                                 <h6 class="mb-0">{{ $tracking['keterangan'] }}</h6>
-                                                                <span>{{ \Carbon\Carbon::parse($tracking['created_at'])->format('d M Y, H:i') }}</span>
-
+                                                                <span>{{ \Carbon\Carbon::parse($tracking['created_at'])->format('d M Y') }}</span>
                                                             </div>
                                                             <p>
                                                                 @foreach ($tracking['document']['urls'] as $url)
@@ -261,10 +274,6 @@
                                                             <span>{{ $laporanDetailDiproses['user_melihat']['role'] }}</span>
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="d-flex flex-wrap align-items-center cursor-pointer">
-                                                        <i class="bx bx-message-rounded-dots me-2"></i>
-                                                        <i class="bx bx-phone-call"></i>
-                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </li>
@@ -507,6 +516,13 @@
                 </div>
                 <div class="tab-pane fade" id="navs-pills-justified-pelaku" role="tabpanel">
                     <div class="col-md mb-4 mb-md-0">
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <h3>Data Pelaku</h3>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#exLargeModal">
+                                Tambah Data Pelaku
+                            </button>
+                        </div>
                         <div class="accordion mt-3" id="accordionExample">
                             @forelse ($laporanDetailDiproses['pelaku'] as $index => $pelaku)
                                 <div class="card accordion-item">
@@ -517,10 +533,27 @@
                                             Data Pelaku {{ $index + 1 }}
                                         </button>
                                     </h2>
+
                                     <div id="accordion{{ $index }}" class="accordion-collapse collapse"
                                         aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
-                                            <h5 class="card-header">Data Pelaku</h5>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h5 class="card-header">Data Pelaku</h5>
+                                                <div>
+                                                    <button type="button" class="btn btn-warning "
+                                                        onclick="editData({{ $index }})">Edit</button>
+                                                    <form id="delete-form-{{ $pelaku['id'] }}"
+                                                        action="{{ route('pelaku.destroy', ['id' => $pelaku['id']]) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger ms-2 delete-btn"
+                                                            data-id="{{ $pelaku['id'] }}">
+                                                            <span class="tf-icons bx bx-trash"></span>&nbsp;Hapus
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                             <div class="card-body">
                                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
                                                     <img src="{{ $pelaku['dokumentasi_pelaku'] }}" alt="user-avatar"
@@ -580,18 +613,8 @@
                                                         <div class="mb-3 col-md-6">
                                                             <label class="form-label" for="status_perkawinan">Status
                                                                 Perkawinan</label>
-                                                            <select id="status_perkawinan" class="select2 form-select">
-                                                                <option value="">Select</option>
-                                                                <option value="Belum Kawin"
-                                                                    {{ $pelaku['status_perkawinan'] == 'Belum Kawin' ? 'selected' : '' }}>
-                                                                    Belum Kawin</option>
-                                                                <option value="Sudah Kawin"
-                                                                    {{ $pelaku['status_perkawinan'] == 'Sudah Kawin' ? 'selected' : '' }}>
-                                                                    Sudah Kawin</option>
-                                                                <option value="Cerai"
-                                                                    {{ $pelaku['status_perkawinan'] == 'Cerai' ? 'selected' : '' }}>
-                                                                    Cerai</option>
-                                                            </select>
+                                                            <input class="form-control" type="text" name="pendidikan"
+                                                                value="{{ $pelaku['status_perkawinan'] }}" disabled>
                                                         </div>
                                                         <div class="mb-3 col-md-6">
                                                             <label for="kebangsaan" class="form-label">Kebangsaan</label>
@@ -684,9 +707,9 @@
                                                                 tabindex="0">
                                                                 <span class="d-none d-sm-block">Upload foto pelaku</span>
                                                                 <i class="bx bx-upload d-block d-sm-none"></i>
-                                                                <input type="file" id="upload" name="image"
-                                                                    class="account-file-input" hidden
-                                                                    accept="image/png, image/jpeg" required>
+                                                                <input type="file" id="upload"
+                                                                    name="dokumentasi_pelaku" class="account-file-input"
+                                                                    hidden accept="image/png, image/jpeg" required>
                                                             </label>
                                                             <button type="button"
                                                                 class="btn btn-outline-secondary account-image-reset mb-4"
@@ -697,7 +720,6 @@
                                                         </div>
                                                     </div>
                                                     <hr class="my-3">
-
                                                     <input type="hidden" name="no_registrasi"
                                                         value="{{ $laporanDetailDiproses['no_registrasi'] }}">
                                                     <div class="row">
@@ -777,34 +799,25 @@
                                                                 id="hubungan_dengan_korban" name="hubungan_dengan_korban"
                                                                 placeholder="Contoh: Paman" required>
                                                         </div>
-                                                        <div class="mb-3">
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="alamat_pelaku" class="form-label">Alamat</label>
+                                                            <input type="text" class="form-control" id="alamat_pelaku"
+                                                                name="alamat_pelaku"
+                                                                placeholder="Contoh : Parparean I, Porsea, Toba, Sumatera Utara"
+                                                                required>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="alamat_detail" class="form-label">Alamat
+                                                                Detail</label>
+                                                            <textarea id="alamat_detail" name="alamat_detail" class="form-control"
+                                                                placeholder="Apakah anda tau alamat detail pelaku?"></textarea>
+                                                        </div>
+                                                        <div class="mb-3 col-md-6">
                                                             <label class="form-label" for="keterangan_lainnya">Keterangan
                                                                 Lainnya</label>
                                                             <textarea id="keterangan_lainnya" name="keterangan_lainnya" class="form-control"
                                                                 placeholder="Adakah keterangan lain mengenai pelaku ini?"></textarea>
                                                         </div>
-                                                        <h5 class="card-header text-center mb-3">Alamat Pelaku</h5>
-<div class="mb-3 col-md-6">
-    <label for="select2-provinsi" class="form-label">Provinsi</label>
-    <select class="form-control select2-data-array" id="select2-provinsi" required></select>
-</div>
-<div class="mb-3 col-md-6">
-    <label for="select2-kabupaten" class="form-label">Kabupaten</label>
-    <select class="form-control select2-data-array" id="select2-kabupaten" required></select>
-</div>
-<div class="mb-3 col-md-6">
-    <label for="select2-kecamatan" class="form-label">Kecamatan</label>
-    <select class="form-control select2-data-array" id="select2-kecamatan" required></select>
-</div>
-<div class="mb-3 col-md-6">
-    <label for="select2-kelurahan" class="form-label">Desa/Kelurahan</label>
-    <select class="form-control select2-data-array" id="select2-kelurahan" required></select>
-</div>
-<input type="hidden" name="alamat" id="alamat">
-<div class="mb-3 col-md-6">
-    <label class="form-label" for="alamat_detail">Alamat Detail</label>
-    <textarea id="alamat_detail" name="alamat_detail" class="form-control" placeholder="Alamat lengkap" required></textarea>
-</div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -813,6 +826,7 @@
                                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                                 </div>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -874,121 +888,28 @@
 </script>
 
 <script>
-    $(document).ready(function() {
-        var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
-        var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
-        var urlKecamatan = "https://ibnux.github.io/data-indonesia/kecamatan/";
-        var urlKelurahan = "https://ibnux.github.io/data-indonesia/kelurahan/";
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle delete button click event
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default form submission
 
-        function clearOptions(id) {
-            $('#' + id).empty().trigger('change');
-        }
-
-        console.log('Load Provinsi...');
-        $.getJSON(urlProvinsi, function(res) {
-            console.log('Provinsi data:', res);
-            res = $.map(res, function(obj) {
-                obj.text = obj.nama;
-                return obj;
+                var eventId = this.getAttribute('data-id');
+                Swal.fire({
+                    title: 'Apakah Anda yakin ingin menghapus Data Pelaku ini?',
+                    text: "Jika anda menghapus maka data tidak akan bisa kembali!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('delete-form-' + eventId).submit();
+                    }
+                });
             });
-            var data = [{
-                id: "",
-                text: "- Pilih Provinsi -"
-            }].concat(res);
-            $("#select2-provinsi").select2({
-                dropdownAutoWidth: true,
-                width: '100%',
-                data: data
-            });
-        });
-
-        var selectProv = $('#select2-provinsi');
-        $(selectProv).change(function() {
-            var value = $(selectProv).val();
-            clearOptions('select2-kabupaten');
-            clearOptions('select2-kecamatan');
-            clearOptions('select2-kelurahan');
-
-            if (value) {
-                console.log('Load Kabupaten for provinsi ID:', value);
-                $.getJSON(urlKabupaten + value + ".json", function(res) {
-                    console.log('Kabupaten data:', res);
-                    res = $.map(res, function(obj) {
-                        obj.text = obj.nama;
-                        return obj;
-                    });
-                    var data = [{
-                        id: "",
-                        text: "- Pilih Kabupaten -"
-                    }].concat(res);
-                    $("#select2-kabupaten").select2({
-                        dropdownAutoWidth: true,
-                        width: '100%',
-                        data: data
-                    });
-                });
-            }
-        });
-
-        var selectKab = $('#select2-kabupaten');
-        $(selectKab).change(function() {
-            var value = $(selectKab).val();
-            clearOptions('select2-kecamatan');
-            clearOptions('select2-kelurahan');
-
-            if (value) {
-                console.log('Load Kecamatan for kabupaten ID:', value);
-                $.getJSON(urlKecamatan + value + ".json", function(res) {
-                    console.log('Kecamatan data:', res);
-                    res = $.map(res, function(obj) {
-                        obj.text = obj.nama;
-                        return obj;
-                    });
-                    var data = [{
-                        id: "",
-                        text: "- Pilih Kecamatan -"
-                    }].concat(res);
-                    $("#select2-kecamatan").select2({
-                        dropdownAutoWidth: true,
-                        width: '100%',
-                        data: data
-                    });
-                });
-            }
-        });
-
-        var selectKec = $('#select2-kecamatan');
-        $(selectKec).change(function() {
-            var value = $(selectKec).val();
-            clearOptions('select2-kelurahan');
-
-            if (value) {
-                console.log('Load Kelurahan for kecamatan ID:', value);
-                $.getJSON(urlKelurahan + value + ".json", function(res) {
-                    console.log('Kelurahan data:', res);
-                    res = $.map(res, function(obj) {
-                        obj.text = obj.nama;
-                        return obj;
-                    });
-                    var data = [{
-                        id: "",
-                        text: "- Pilih Kelurahan -"
-                    }].concat(res);
-                    $("#select2-kelurahan").select2({
-                        dropdownAutoWidth: true,
-                        width: '100%',
-                        data: data
-                    });
-                });
-            }
-        });
-
-        $('form').submit(function() {
-            var alamat = $('#select2-provinsi :selected').text() + ', ' +
-                $('#select2-kabupaten :selected').text() + ', ' +
-                $('#select2-kecamatan :selected').text() + ', ' +
-                $('#select2-kelurahan :selected').text();
-            $('#alamat').val(alamat);
         });
     });
 </script>

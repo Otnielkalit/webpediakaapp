@@ -48,58 +48,42 @@ class AdminContentController extends Controller
         ]);
     }
 
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // Prepare the headers
         $headers = ApiHelper::getAuthorizationHeader($request);
 
-        // Validate the request
         $validator = Validator::make($request->all(), [
-            'nama_event' => 'required|string|max:255',
-            'tanggal_pelaksanaan' => 'required|date',
-            'deskripsi_event' => 'required|string',
-            'thumbnail_event' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
+            'judul' => 'required|string|max:255',
+            'isi_content' => 'required|string',
+            'image_content' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
+            'violence_category_id' => 'required|integer',
         ]);
 
-        // Handle validation failure
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Handle the image file
-        $image = $request->file('thumbnail_event');
+        $image = $request->file('image_content');
         $imageContent = file_get_contents($image);
 
-        // Prepare the data for the API request
         $data = [
-            'nama_event' => $request->input('nama_event'),
-            'tanggal_pelaksanaan' => $request->input('tanggal_pelaksanaan'),
-            'deskripsi_event' => $request->input('deskripsi_event'),
+            'judul' => $request->input('judul'),
+            'isi_content' => $request->input('isi_content'),
+            'violence_category_id' => $request->input('violence_category_id'),
         ];
 
-        // Make the API request
         $response = Http::withHeaders($headers)
-            ->attach('thumbnail_event', $imageContent, $image->getClientOriginalName())
-            ->post(env('API_URL') . 'api/admin/create-event', $data);
+            ->attach('image_content', $imageContent, $image->getClientOriginalName())
+            ->post(env('API_URL') . 'api/admin/create-content', $data);
 
-        // Handle the API response
         if ($response->successful()) {
             Alert::success('Success', $response->json('message'));
-            return redirect()->route('event.index')->with('success', 'Event berhasil dibuat.');
+            return redirect()->route('content.index')->with('success', 'Konten berhasil dibuat.');
         } else {
             Alert::error('Error', $response->json('message'));
-            return redirect()->back()->with('error', 'Gagal membuat event. Silakan coba lagi.');
+            return redirect()->back()->with('error', 'Gagal membuat konten. Silakan coba lagi.');
         }
     }
-
-
-
-
 
     /**
      * Display the specified resource.

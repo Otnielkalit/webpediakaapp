@@ -52,8 +52,9 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::resource('/admin/content', AdminContentController::class);
     Route::resource('/admin/category-violence', AdminKategoryKekerasan::class);
     Route::resource('/admin/event', AdminEventController::class);
-    Route::get('admin/emergency-contact/{id}', [DashboardAdminController::class, 'showEmergencyContact'])->name('emergency-contact.show');
-    Route::put('admin/edit-contact', [DashboardAdminController::class, 'updateContact'])->name('contact.update');
+    Route::put('/admin/edit-contact', [DashboardAdminController::class, 'updateContact'])->name('contact.update');
+
+
 
     /*||============================================== K E L O L A L A P O R A N ============================================== ||*/
     Route::get('/admin/laporan-masuk', [AdminLaporanController::class, 'masuk'])->name('laporan.masuk');
@@ -64,6 +65,8 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/admin/detail-laporan-diproses/{no_registrasi}', [AdminLaporanController::class, 'detailDiProses'])->name('laporan.detail-diproses');
 
     Route::post('/admin/create-pelaku-kekerasan', [AdminPelakuController::class, 'store'])->name('pelaku.store');
+    Route::put('/admin/edit-pelaku-kekerasan', [AdminPelakuController::class, 'update'])->name('pelaku.update');
+    Route::delete('/admin/delete-pelaku-kekerasan/{id}', [AdminPelakuController::class, 'destroy'])->name('pelaku.destroy');
 
 
     Route::put('admin/lihat-laporan/{no_registrasi}', [AdminLaporanController::class, 'lihat'])->name('laporan.lihat');
@@ -74,6 +77,7 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::get('/admin/laporan-dibatalkan', [AdminLaporanController::class, 'dibatalkan'])->name('laporan.dibatalkan');
     Route::get('/admin/detail-laporan-dibatalkan/{no_registrasi}', [AdminLaporanController::class, 'detailDibatalkan'])->name('laporan.detail-dibatalkan');
 
+    Route::put('admin/selesaikan-laporan/{no_registrasi}', [AdminLaporanController::class, 'selesaikanLaporan'])->name('laporan.selesaikan');
     Route::get('/admin/laporan-selesai', [AdminLaporanController::class, 'selesai'])->name('laporan.selesai');
     Route::get('/admin/detail-laporan-selesai/{no_registrasi}', [AdminLaporanController::class, 'detailSelesai'])->name('laporan.detail-selesai');
 

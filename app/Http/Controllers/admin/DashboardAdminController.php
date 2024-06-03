@@ -72,7 +72,7 @@ class DashboardAdminController extends Controller
         ];
 
         // Make the GET request to the API
-        $response = Http::withHeaders($headers)->get(env('API_URL') . '/emergency-contact/' . $id);
+        $response = Http::withHeaders($headers)->get(env('API_URL') . 'api/emergency-contact/' . $id);
 
         if ($response->successful()) {
             $emergencyContact = $response->json();
@@ -84,10 +84,11 @@ class DashboardAdminController extends Controller
         }
     }
 
-    public function updateContact(Request $request, $id)
+    public function updateContact(Request $request)
     {
         $headers = ApiHelper::getAuthorizationHeader($request);
         $phone = $request->input('phone');
+
         $validator = Validator::make($request->all(), [
             'phone' => 'required|numeric',
         ]);
@@ -95,13 +96,15 @@ class DashboardAdminController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         $response = Http::withHeaders($headers)
-            ->put(env('API_URL') . 'emergency-contact-edit/' . $id, [
+            ->put(env('API_URL') . 'api/admin/emergency-contact-edit', [
                 'phone' => $phone,
             ]);
+
         if ($response->successful()) {
             Alert::success('Success', $response->json('message'));
-            return redirect()->route('contacts.index')->with('success', 'Kontak darurat berhasil diperbarui.');
+            return redirect()->back();
         } else {
             Alert::error('Error', $response->json('message'));
             return redirect()->back()->with('error', 'Gagal memperbarui kontak darurat. Silakan coba lagi.');

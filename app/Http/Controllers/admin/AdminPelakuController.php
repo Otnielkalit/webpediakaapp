@@ -26,8 +26,11 @@ class AdminPelakuController extends Controller
         $status_perkawinan = $request->input('status_perkawinan');
         $kebangsaan = $request->input('kebangsaan');
         $hubungan_dengan_korban = $request->input('hubungan_dengan_korban');
+        $alamat_pelaku = $request->input('alamat_pelaku');
+        $alamat_detail = $request->input('alamat_detail');
         $keterangan_lainnya = $request->input('keterangan_lainnya');
-        $image = $request->file('image');
+        $dokumentasi_pelaku = $request->file('dokumentasi_pelaku');
+
         $validator = Validator::make($request->all(), [
             'no_registrasi' => 'required|string|max:255',
             'nik_pelaku' => 'required|string|max:255',
@@ -41,15 +44,18 @@ class AdminPelakuController extends Controller
             'status_perkawinan' => 'required|string|max:255',
             'kebangsaan' => 'required|string|max:255',
             'hubungan_dengan_korban' => 'required|string|max:255',
+            'alamat_pelaku' => 'required|string|max:255',
+            'alamat_detail' => 'nullable|string',
             'keterangan_lainnya' => 'nullable|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:7000',
+            'dokumentasi_pelaku' => 'required|image|mimes:jpeg,png,jpg,gif|max:7000',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         $response = Http::withHeaders($headers)
-            ->attach('image', file_get_contents($image), $image->getClientOriginalName())
+            ->attach('dokumentasi_pelaku', file_get_contents($dokumentasi_pelaku), $dokumentasi_pelaku->getClientOriginalName())
             ->post(env('API_URL') . 'api/admin/create-pelaku-kekerasan', [
                 'no_registrasi' => $no_registrasi,
                 'nik_pelaku' => $nik_pelaku,
@@ -63,6 +69,8 @@ class AdminPelakuController extends Controller
                 'status_perkawinan' => $status_perkawinan,
                 'kebangsaan' => $kebangsaan,
                 'hubungan_dengan_korban' => $hubungan_dengan_korban,
+                'alamat_pelaku' => $alamat_pelaku,
+                'alamat_detail' => $alamat_detail,
                 'keterangan_lainnya' => $keterangan_lainnya,
             ]);
 
@@ -70,8 +78,22 @@ class AdminPelakuController extends Controller
             Alert::success('Success', $response->json('message'));
             return redirect()->back()->with('success', 'Data pelaku berhasil ditambahkan');
         } else {
-            Alert::error('Success', $response->json('message'));
+            Alert::error('Error', $response->json('message'));
             return redirect()->back()->with('error', 'Gagal menambahkan data pelaku. Silakan coba lagi.');
+        }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $headers = ApiHelper::getAuthorizationHeader($request);
+        $response = Http::withHeaders($headers)->delete(env('API_URL') . "api/admin/delete-pelaku-kekerasan/{$id}");
+
+        if ($response->successful()) {
+            Alert::success('Success', $response->json('message'));
+            return redirect()->back();
+        } else {
+            Alert::error('Error', $response->json('message'));
+            return redirect()->back();
         }
     }
 }
