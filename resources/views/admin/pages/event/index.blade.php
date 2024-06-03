@@ -19,7 +19,6 @@
                             style="background-image: url('{{ $event['thumbnail_event'] }}');">
                         </div>
                         <h4 class="mb-2 pb-1">{{ $event['nama_event'] }}</h4>
-                        <p class="small">{!! $event['deskripsi_event'] !!}</p>
                         <div class="row mb-3 g-3">
                             <div class="col-6">
                                 <div class="d-flex">
@@ -31,7 +30,7 @@
                                     <div>
                                         <h6 class="mb-0 text-nowrap">
                                             {{ \Carbon\Carbon::parse($event['tanggal_pelaksanaan'])->format('d M Y') }}</h6>
-                                        <small>Date</small>
+                                        <small>Hari</small>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +44,7 @@
                                     <div>
                                         <h6 class="mb-0 text-nowrap">
                                             {{ \Carbon\Carbon::parse($event['tanggal_pelaksanaan'])->diffForHumans() }}</h6>
-                                        <small>Duration</small>
+                                        <small>Waktu</small>
                                     </div>
                                 </div>
                             </div>
