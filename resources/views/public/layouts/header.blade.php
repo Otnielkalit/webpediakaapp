@@ -16,7 +16,7 @@
                     <div class="col-xl-2 col-lg-2 col-md-2">
                         <div class="logo">
                             <a href="index.html">
-                                <img src="assets/img/logo/logo.png" alt="">
+                                <img src="assets/img/logo/logo.png" alt="" width="250">
                             </a>
                         </div>
                     </div>

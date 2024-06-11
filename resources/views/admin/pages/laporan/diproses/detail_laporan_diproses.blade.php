@@ -186,9 +186,16 @@
                                                     <input type="text" name="no_registrasi"
                                                         value="{{ $laporanDetailDiproses['no_registrasi'] }}" hidden>
                                                     <div class="mb-3">
-                                                        <label for="keterangan" class="form-label">Keterangan</label>
-                                                        <input type="text" name="keterangan" id="keterangan"
-                                                            class="form-control" placeholder="Keterangan" required>
+
+
+                                                            <label for="jenis_kelamin" class="form-label">Keterangan</label>
+                                                            <select class="form-control" id="jenis_kelamin" name="jenis_kelamin"
+                                                                required>
+                                                                <option value="">Pilih</option>
+                                                                <option value="Dibawa ke Jaksa">Dibawa ke Jaksa</option>
+                                                                <option value="Di bawa ke Polisi">Di bawa ke Polisi</option>
+                                                                <option value="Di bawa ke DInas Sosial">Di bawa ke DInas Sosial</option>
+                                                            </select>
                                                     </div>
                                                     <div class="d-flex align-items-start align-items-sm-center gap-4 mb-3">
                                                         <img src="{{ asset('asset-admin/assets/img/avatars/upload.png') }}"
@@ -197,7 +204,7 @@
                                                         <div class="button-wrapper">
                                                             <label for="upload" class="btn btn-primary me-2 mb-4"
                                                                 tabindex="0">
-                                                                <span class="d-none d-sm-block">Upload Foto Pelaku</span>
+                                                                <span class="d-none d-sm-block">Upload Dokumentasi</span>
                                                                 <i class="bx bx-upload d-block d-sm-none"></i>
                                                                 <input type="file" id="upload" name="document"
                                                                     class="account-file-input" hidden
