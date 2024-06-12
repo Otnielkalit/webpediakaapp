@@ -186,16 +186,8 @@
                                                     <input type="text" name="no_registrasi"
                                                         value="{{ $laporanDetailDiproses['no_registrasi'] }}" hidden>
                                                     <div class="mb-3">
-
-
-                                                            <label for="jenis_kelamin" class="form-label">Keterangan</label>
-                                                            <select class="form-control" id="jenis_kelamin" name="jenis_kelamin"
-                                                                required>
-                                                                <option value="">Pilih</option>
-                                                                <option value="Dibawa ke Jaksa">Dibawa ke Jaksa</option>
-                                                                <option value="Di bawa ke Polisi">Di bawa ke Polisi</option>
-                                                                <option value="Di bawa ke DInas Sosial">Di bawa ke DInas Sosial</option>
-                                                            </select>
+                                                        <label for="keterngan">Ketarangan</label>
+                                                        <input type="text" class="form-control" name="keterangan">
                                                     </div>
                                                     <div class="d-flex align-items-start align-items-sm-center gap-4 mb-3">
                                                         <img src="{{ asset('asset-admin/assets/img/avatars/upload.png') }}"
@@ -428,9 +420,19 @@
                                             name="jenis_kelamin">
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <label for="agama" class="form-label">Agama</label>
+                                        {{-- <label for="agama" class="form-label">Agama</label>
                                         <input type="text" class="form-control" value="{{ $korban['agama'] }}"
-                                            id="agama" name="agama" placeholder="Contoh Kristen">
+                                            id="agama" name="agama" placeholder="Contoh Kristen"> --}}
+                                        <label for="agama" class="form-label">Keterangan</label>
+                                        <select class="form-control" id="agama" name="agama" required>
+                                            <option value="">Pilih</option>
+                                            <option value="Kristen">Kristen</option>
+                                            <option value="Islam">Islam</option>
+                                            <option value="Hindu">Hindu</option>
+                                            <option value="Budha">Budha</option>
+                                            <option value="Katolik">Katolik</option>
+                                            <option value="Kepercayaan Lainnya">Kepercayaan Lainnya</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <label class="form-label" for="no_telepon">Nomor Telepon</label>
