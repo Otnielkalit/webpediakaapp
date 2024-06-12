@@ -78,20 +78,20 @@
         <div class="modal-body">
           <div class="download-container">
             <div class="download-text">
-              <h1>Pindai kode QR atau dapatkan aplikasinya sekarang!</h1>
+              <h1>Pindai kode QR dan dapatkan aplikasinya sekarang!</h1>
               <div class="download-buttons">
                 {{-- <a href="https://apps.apple.com" target="_blank"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store"></a>
                 <a href="https://play.google.com/store" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play"></a> --}}
               </div>
             </div>
             <div class="download-qr-code">
-              <img src="https://www.qr-code-generator.com/wp-content/uploads/2017/09/qrcode_placehold.png" alt="QR Code">
+              <img src="assets/img/logo/qr.png" alt="QR Code">
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+</div>
 
   <style>
     .download-container {

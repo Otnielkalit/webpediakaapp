@@ -16,10 +16,11 @@
                                     </h1>
                                     <div class="slider-btns">
                                         <a data-animation="fadeInLeft" data-delay="1.0s" href="industries.html"
-                                            class="btn radius-btn">Download</a>
+                                            class="btn radius-btn" data-toggle="modal"
+                                            data-target="#downloadModal">Download</a>
                                         <a data-animation="fadeInRight" data-delay="1.0s"
                                             class="popup-video video-btn ani-btn"
-                                            href="https://www.youtube.com/watch?v=1aP-TXUpNoU">
+                                            href="https://www.youtube.com/watch?v=2ESInzV7JQQ" target="_blank">
                                             <i class="fas fa-play"></i>
                                         </a>
                                     </div>
@@ -140,13 +141,10 @@
                     <div class="col-xl-4 col-lg-4 col-md-8">
                         <div class="single-cases-info mb-30">
                             <h3>
-                                Applic Apps
+                                Secreenshoot
                                 <br>
-                                Screenshot
+                                Aplikasi
                             </h3>
-                            <p>Lorem ipsum dolor sit amet, consecadipiscing elit, sed do eiusmod tempor incididunt ut
-                                ore et dolore magna aliqua. Quis ipsum suspendisse gravida. Risus commodo viverra
-                                maecenasan lacus vel facilisis.</p>
                         </div>
                     </div>
                     <div class="col-xl-8 col-lg-8 col-md-col-md-7">
@@ -186,22 +184,16 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="steps">
                             <ol id="stepsList">
-                                <li data-image="assets/img/gallery/App1.png" class="active">1. Install the Privy app from
-                                    either the App
+                                <li data-image="assets/img/gallery/boarding.png" class="active">1. Install Aplikasi Pedika
+                                    App dengan Scan barcode yang sudah kami sediakan di atas
                                     Store or Play Store.</li>
-                                <li data-image="assets/img/gallery/App2.png">2. Enter your email and wait for the OTP code
-                                    for verification.
+                                <li data-image="assets/img/gallery/log-reg.png">2. Login atau Daftarkan Akun anda melalui
+                                    apliaksi PedikaApp
                                 </li>
-                                <li data-image="assets/img/gallery/App3.png">3. Select your nationality and upload the
-                                    required document (KTP
-                                    or Passport for foreigners).</li>
-                                <li data-image="assets/img/gallery/App1.png">4. Initiate liveness detection by capturing a
-                                    quick selfie.</li>
-                                <li data-image="assets/img/gallery/App2.png">5. Establish your password and PIN for added
-                                    security.</li>
-                                <li data-image=assets/img/gallery/App3.png>6. Congratulations! Your Privy account is now
-                                    ready for use.
-                                    Enjoy effortless document signing!</li>
+                                <li data-image="assets/img/gallery/registrasi.png">3. Daftarkan Akun anda dengan mengisi data yang benar</li>
+                                <li data-image="assets/img/gallery/login.png">4. Setalah Berhasil registrasi akun silahkan login dengan akun baru anda</li>
+                                <li data-image="assets/img/gallery/hoe.png">5. Silahkan gunakan Fitur yang kami sediakan pada aplikasi Pedikaap</li>
+                                <li data-image=assets/img/gallery/emergency.png>6. Anda juga bisa menggunakan fitur emergency call</li>
                             </ol>
                         </div>
                     </div>
@@ -219,7 +211,7 @@
                 <div class="row justify-content-between align-items-center">
                     <div class="offset-xl-1 offset-lg-1 col-xl-5 col-lg-5">
                         <div class="say-something-cap">
-                            <h2>Say Hello To The Collaboration Hub.</h2>
+                            <h2>Katakan Sesuatu Kepada Kami</h2>
                         </div>
                     </div>
                     <div class="col-xl-2 col-lg-3">
@@ -237,4 +229,3 @@
         </div>
     </main>
 @endsection
-
