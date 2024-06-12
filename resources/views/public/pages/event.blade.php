@@ -16,7 +16,7 @@
     <section class="blog_area section-paddingr">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="col-lg-12 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
                         @forelse ($events as $event)
                             <article class="blog_item">

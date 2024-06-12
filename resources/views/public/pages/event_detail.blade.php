@@ -23,11 +23,10 @@
                 <div class="col-lg-12 posts-list">
                     @if ($event)
                         <div class="single-post">
-                            <div class="feature-img">
-                                <img class="img-fluid" src="{{ $event['thumbnail_event'] }}"
-                                    alt="{{ $event['nama_event'] }}">
+                            <div class="feature-img" style="position: relative;">
+                                <img class="img-fluid" src="{{ $event['thumbnail_event'] }}" alt="{{ $event['nama_event'] }}" style="width: 100%; height: auto; border-radius: 15px;">
                             </div>
-                            <div class="blog_details">
+                            <div class="blog_details mt-4">
                                 <h2>{{ $event['nama_event'] }}</h2>
                                 <ul class="blog-info-link mt-3 mb-4">
                                     <li><i class="fa fa-calendar"></i>
@@ -47,4 +46,5 @@
             </div>
         </div>
     </section>
+
 @endsection
