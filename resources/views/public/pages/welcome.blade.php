@@ -192,7 +192,7 @@
                                 </li>
                                 <li data-image="assets/img/gallery/registrasi.png">3. Daftarkan Akun anda dengan mengisi data yang benar</li>
                                 <li data-image="assets/img/gallery/login.png">4. Setalah Berhasil registrasi akun silahkan login dengan akun baru anda</li>
-                                <li data-image="assets/img/gallery/hoe.png">5. Silahkan gunakan Fitur yang kami sediakan pada aplikasi Pedikaap</li>
+                                <li data-image="assets/img/gallery/home.png">5. Silahkan gunakan Fitur yang kami sediakan pada aplikasi Pedikaap</li>
                                 <li data-image=assets/img/gallery/emergency.png>6. Anda juga bisa menggunakan fitur emergency call</li>
                             </ol>
                         </div>
