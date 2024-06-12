@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Log;
 
 class DashboardPublicController extends Controller
 {
@@ -66,37 +67,37 @@ class DashboardPublicController extends Controller
     }
 
     public function searchByCategory($categoryId)
-{
-    try {
-        // Fetch contents by category
-        $responseContents = Http::get(env('API_URL') . 'api/publik-content?category_id=' . $categoryId);
-        if ($responseContents->successful()) {
-            $contents = collect($responseContents->json()['Data']);
-        } else {
+    {
+        try {
+            // Fetch contents by category
+            $responseContents = Http::get(env('API_URL') . 'api/publik-content?category_id=' . $categoryId);
+            if ($responseContents->successful()) {
+                $contents = collect($responseContents->json()['Data']);
+            } else {
+                $contents = collect([]);
+            }
+        } catch (\Exception $e) {
             $contents = collect([]);
         }
-    } catch (\Exception $e) {
-        $contents = collect([]);
+
+        // Manual Pagination
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 5;
+        $currentPageItems = $contents->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedContents = new LengthAwarePaginator($currentPageItems, $contents->count(), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath()
+        ]);
+
+        // Get recent posts (example, you may need to fetch from API)
+        $recentPosts = $contents->sortByDesc('created_at')->take(5);
+
+        return view('public.pages.content', [
+            'title' => 'Blog Pedika App',
+            'contents' => $paginatedContents,
+            'recent_posts' => $recentPosts,
+            'noResults' => $contents->isEmpty() // Add a flag for no results
+        ]);
     }
-
-    // Manual Pagination
-    $currentPage = LengthAwarePaginator::resolveCurrentPage();
-    $perPage = 5;
-    $currentPageItems = $contents->slice(($currentPage - 1) * $perPage, $perPage)->values();
-    $paginatedContents = new LengthAwarePaginator($currentPageItems, $contents->count(), $perPage, $currentPage, [
-        'path' => LengthAwarePaginator::resolveCurrentPath()
-    ]);
-
-    // Get recent posts (example, you may need to fetch from API)
-    $recentPosts = $contents->sortByDesc('created_at')->take(5);
-
-    return view('public.pages.content', [
-        'title' => 'Blog Pedika App',
-        'contents' => $paginatedContents,
-        'recent_posts' => $recentPosts,
-        'noResults' => $contents->isEmpty() // Add a flag for no results
-    ]);
-}
 
 
     public function search(Request $request)
@@ -145,13 +146,6 @@ class DashboardPublicController extends Controller
         ]);
     }
 
-
-
-
-
-
-
-
     public function detailContent($id)
     {
         try {
@@ -172,17 +166,54 @@ class DashboardPublicController extends Controller
         ]);
     }
 
+
     public function event()
     {
+        try {
+            // Fetch events
+            $response = Http::get(env('API_URL') . 'api/publik-event');
+            if ($response->successful()) {
+                $events = collect($response->json()['Data']);
+            } else {
+                $events = collect([]);
+            }
+        } catch (\Exception $e) {
+            $events = collect([]);
+        }
+
+        // Manual Pagination
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 5;
+        $currentPageItems = $events->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedEvents = new LengthAwarePaginator($currentPageItems, $events->count(), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath()
+        ]);
+
         return view('public.pages.event', [
-            'title' => 'Event DPMPDPPA'
+            'title' => 'Event DPMDPPA',
+            'events' => $paginatedEvents
         ]);
     }
 
-    public function eventDetail()
+
+    public function eventDetail($id)
     {
+        try {
+            // Fetch event details
+            $response = Http::get(env('API_URL') . 'api/detail-event/' . $id);
+            if ($response->successful()) {
+                $event = $response->json()['Data'];
+            } else {
+                $event = null;
+            }
+        } catch (\Exception $e) {
+            Log::error("Failed to fetch event details: " . $e->getMessage());
+            $event = null;
+        }
+
         return view('public.pages.event_detail', [
-            'title' => 'Event Detail'
+            'title' => 'Event Detail',
+            'event' => $event
         ]);
     }
 

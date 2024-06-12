@@ -27,9 +27,9 @@
                                     <li class="{{ \Route::is('welcome') ? 'active' : '' }}">
                                         <a href="{{ route('welcome') }}">Beranda</a>
                                     </li>
-                                    <li class="{{ \Route::is('feature') ? 'active' : '' }}">
+                                    {{-- <li class="{{ \Route::is('feature') ? 'active' : '' }}">
                                         <a href="{{ route('feature') }}">Fitur</a>
-                                    </li>
+                                    </li> --}}
                                     <li class="{{ \Route::is('content') || \Route::is('content.detail') ? 'active' : '' }}">
                                         <a href="{{ route('content') }}">Konten</a>
                                     </li>
@@ -85,7 +85,8 @@
               </div>
             </div>
             <div class="download-qr-code">
-              <img src="assets/img/logo/qr.png" alt="QR Code">
+              {{-- <img src="assets/img/logo/qr.png" alt="QR Code"> --}}
+              <img src="assets/img/logo/qecode.png" alt="QR Code">
             </div>
           </div>
         </div>
@@ -126,8 +127,8 @@
     flex: none;
 }
 .download-qr-code img {
-    height: 200px;
-    width: 200px;
+    height: 300px;
+    width: 300px;
 }
 
   </style>

@@ -23,10 +23,6 @@
                                 <div class="blog_item_img">
                                     <img class="card-img rounded-0" src="{{ $content['image_content'] }}"
                                         alt="{{ $content['judul'] }}">
-                                    <a href="#" class="blog_item_date">
-                                        <h3>{{ \Carbon\Carbon::parse($content['created_at'])->format('d') }}</h3>
-                                        <p>{{ \Carbon\Carbon::parse($content['created_at'])->format('M') }}</p>
-                                    </a>
                                 </div>
 
                                 <div class="blog_details">
@@ -37,11 +33,11 @@
                                     <p>{{ Str::limit(strip_tags($content['isi_content']), 150, '...') }}</p>
                                     <ul class="blog-info-link">
                                         <li>
-                                            <i class="fa fa-user"></i> Kategori
+                                            <i class="fa fa-list-alt"></i> Kategori
+                                            {{ $content['violence_category']['category_name'] }}
                                         </li>
                                         <li>
-                                            <i class="fa fa-comments"></i>
-                                            {{ $content['violence_category']['category_name'] }}
+                                            Diposting {{ \Carbon\Carbon::parse($content['created_at'])->format('d M Y') }}
                                         </li>
                                     </ul>
                                 </div>
@@ -71,7 +67,7 @@
                                 </div>
                             </form>
                         </aside> --}}
-                        <aside class="single_sidebar_widget post_category_widget">
+                        {{-- <aside class="single_sidebar_widget post_category_widget">
                             <h4 class="widget_title">Cari Berdasarkan Kategori</h4>
                             <ul class="list cat-list">
                                 @isset($violence_categories)
@@ -87,11 +83,11 @@
                                     @endforeach
                                 @endisset
                             </ul>
-                        </aside>
+                        </aside> --}}
 
 
                         <aside class="single_sidebar_widget popular_post_widget">
-                            <h3 class="widget_title">Recent Post</h3>
+                            <h3 class="widget_title">Konten Terbaru</h3>
                             @foreach ($recent_posts as $post)
                                 <div class="media post_item">
                                     <img src="{{ $post['image_content'] }}" alt="post" class="img-fluid" height="30"
@@ -100,7 +96,8 @@
                                         <a href="{{ route('content.detail', ['id' => $post['id']]) }}">
                                             <h3>{{ $post['judul'] }}</h3>
                                         </a>
-                                        <p>{{ \Carbon\Carbon::parse($post['created_at'])->diffForHumans() }}</p>
+                                        <p>{{ \Carbon\Carbon::parse($post['created_at'])->locale('id')->diffForHumans() }}</p>
+
                                     </div>
                                 </div>
                             @endforeach
