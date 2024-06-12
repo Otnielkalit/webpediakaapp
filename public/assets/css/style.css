@@ -1600,7 +1600,7 @@ hr {
   transition: 0.6s;
 }
 .preloader .preloader-img img {
-  max-width: 55px;
+  max-width: 100px;
 }
 .preloader .pere-text strong {
   font-weight: 800;

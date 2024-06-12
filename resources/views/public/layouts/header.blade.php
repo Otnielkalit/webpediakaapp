@@ -86,7 +86,7 @@
             </div>
             <div class="download-qr-code">
               {{-- <img src="assets/img/logo/qr.png" alt="QR Code"> --}}
-              <img src="assets/img/logo/qecode.png" alt="QR Code">
+              <img src="assets/img/logo/qrcode.png" alt="QR Code">
             </div>
           </div>
         </div>

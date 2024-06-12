@@ -15,9 +15,9 @@
                                         Dengan Pedika App
                                     </h1>
                                     <div class="slider-btns">
-                                        <a data-animation="fadeInLeft" data-delay="1.0s" href="industries.html"
-                                            class="btn radius-btn" data-toggle="modal"
-                                            data-target="#downloadModal">Download</a>
+                                        <a data-animation="fadeInLeft" data-delay="1.0s"
+                                            href="https://drive.google.com/file/d/142u6GM_JSiAOl-GQN4Dt8B4LO7AMQXgb/view?usp=drive_link"
+                                            target="_blank" class="btn radius-btn">Download</a>
                                         <a data-animation="fadeInRight" data-delay="1.0s"
                                             class="popup-video video-btn ani-btn"
                                             href="https://www.youtube.com/watch?v=2ESInzV7JQQ" target="_blank">
@@ -35,43 +35,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="single-slider slider-height slider-padding sky-blue d-flex align-items-center">
-                    <div class="container">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-lg-6 col-md-9 ">
-                                <div class="hero__caption">
-                                    <span data-animation="fadeInUp" data-delay=".4s">App Landing Page</span>
-                                    <h1 data-animation="fadeInUp" data-delay=".6s">
-                                        Get things done
-                                        <br>
-                                        with Appco
-                                    </h1>
-                                    <p data-animation="fadeInUp" data-delay=".8s">Dorem ipsum dolor sitamet,
-                                        consectetur adipiscing elit, sed do eiusm tempor incididunt ulabore et dolore
-                                        magna aliqua.</p>
-                                    <div class="slider-btns">
-                                        <a data-animation="fadeInLeft" data-delay="1.0s" href="industries.html"
-                                            class="btn radius-btn">Download</a>
-                                        <a data-animation="fadeInRight" data-delay="1.0s"
-                                            class="popup-video video-btn ani-btn"
-                                            href="https://www.youtube.com/watch?v=1aP-TXUpNoU">
-                                            <i class="fas fa-play"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="hero__img d-none d-lg-block f-right" data-animation="fadeInRight"
-                                    data-delay="1s">
-                                    <img src="assets/img/hero/hero_right.png" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        
+
         <div class="applic-apps section-padding2">
             <div class="container-fluid">
                 <div class="row">
@@ -127,10 +93,14 @@
                                 <li data-image="assets/img/gallery/log-reg.png">2. Login atau Daftarkan Akun anda melalui
                                     apliaksi PedikaApp
                                 </li>
-                                <li data-image="assets/img/gallery/registrasi.png">3. Daftarkan Akun anda dengan mengisi data yang benar</li>
-                                <li data-image="assets/img/gallery/login.png">4. Setalah Berhasil registrasi akun silahkan login dengan akun baru anda</li>
-                                <li data-image="assets/img/gallery/home.png">5. Silahkan gunakan Fitur yang kami sediakan pada aplikasi Pedikaap</li>
-                                <li data-image=assets/img/gallery/emergency.png>6. Anda juga bisa menggunakan fitur emergency call</li>
+                                <li data-image="assets/img/gallery/registrasi.png">3. Daftarkan Akun anda dengan mengisi
+                                    data yang benar</li>
+                                <li data-image="assets/img/gallery/login.png">4. Setalah Berhasil registrasi akun silahkan
+                                    login dengan akun baru anda</li>
+                                <li data-image="assets/img/gallery/home.png">5. Silahkan gunakan Fitur yang kami sediakan
+                                    pada aplikasi Pedikaap</li>
+                                <li data-image=assets/img/gallery/emergency.png>6. Anda juga bisa menggunakan fitur
+                                    emergency call</li>
                             </ol>
                         </div>
                     </div>
@@ -159,8 +129,7 @@
                 </div>
             </div>
             <div class="say-shape">
-                <img src="assets/img/shape/say-shape-left.png" alt=""
-                    class="say-shape1 rotateme d-none d-xl-block">
+                <img src="assets/img/shape/say-shape-left.png" alt="" class="say-shape1 rotateme d-none d-xl-block">
                 <img src="assets/img/shape/say-shape-right.png" alt="" class="say-shape2 d-none d-lg-block">
             </div>
         </div>
