@@ -14,7 +14,7 @@ class DashboardPublicController extends Controller
     {
 
         return view('public.pages.welcome', [
-            'title' => 'Selamat Datang di Apliaksi pedika pp'
+            'title' => 'Selamat Datang di Apliaksi Pedika App'
         ]);
     }
 
